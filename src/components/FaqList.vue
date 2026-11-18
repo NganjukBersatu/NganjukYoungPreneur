@@ -1,0 +1,158 @@
+<script setup lang="ts">
+defineProps<{ items: { q: string; a: string }[] }>()
+</script>
+
+<template>
+  <div class="faq">
+    <details v-for="(item, i) in items" :key="item.q" class="faq-item rv" v-reveal :open="i === 0">
+      <summary class="faq-sum">
+        <span class="faq-num">{{ String(i + 1).padStart(2, '0') }}</span>
+        <span class="faq-q">{{ item.q }}</span>
+        <span class="faq-ic" aria-hidden="true"></span>
+      </summary>
+      <div class="faq-a">
+        <p>{{ item.a }}</p>
+      </div>
+    </details>
+  </div>
+</template>
+
+<style scoped>
+.faq {
+  max-width: 800px;
+  margin: 32px auto 0;
+  display: grid;
+  gap: 14px;
+}
+
+.faq-item {
+  background: #fff;
+  border: 1px solid rgba(29, 63, 214, 0.12);
+  border-radius: 18px;
+  box-shadow: 0 2px 10px rgba(8, 15, 51, 0.04);
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.faq-item:hover {
+  border-color: rgba(29, 63, 214, 0.35);
+}
+.faq-item[open] {
+  border-color: #1d3fd6;
+  box-shadow: 0 12px 30px rgba(29, 63, 214, 0.12);
+}
+
+/* Susunan: [nomor] [pertanyaan .......] [ikon] */
+.faq-sum {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+.faq-sum::-webkit-details-marker {
+  display: none;
+}
+/* Matikan ikon bawaan dari CSS global agar tidak dobel */
+.faq-sum::before,
+.faq-sum::after {
+  content: none !important;
+  display: none !important;
+}
+.faq-sum:focus-visible {
+  outline: 2px solid #1d3fd6;
+  outline-offset: -4px;
+  border-radius: 18px;
+}
+
+.faq-num {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #eef3ff;
+  color: #1d3fd6;
+  font-size: 13px;
+  font-weight: 800;
+  transition: background 0.2s, color 0.2s;
+}
+.faq-item[open] .faq-num {
+  background: #1d3fd6;
+  color: #fff;
+}
+
+.faq-q {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: left;
+}
+
+/* Ikon plus di dalam lingkaran, berubah jadi minus saat dibuka */
+.faq-ic {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #eef3ff;
+  transition: background 0.2s, transform 0.25s;
+}
+.faq-ic::before,
+.faq-ic::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 2px;
+  margin: -1px 0 0 -6px;
+  border-radius: 2px;
+  background: #1d3fd6;
+  transition: transform 0.25s, background 0.2s;
+}
+.faq-ic::after {
+  transform: rotate(90deg);
+}
+.faq-item[open] .faq-ic {
+  background: #1d3fd6;
+}
+.faq-item[open] .faq-ic::before,
+.faq-item[open] .faq-ic::after {
+  background: #fff;
+}
+.faq-item[open] .faq-ic::after {
+  transform: rotate(0);
+}
+
+/* Jawaban sejajar dengan teks pertanyaan (melewati kolom nomor) */
+.faq-a {
+  padding: 0 20px 20px 72px;
+}
+.faq-a p {
+  margin: 0;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(29, 63, 214, 0.2);
+  line-height: 1.7;
+  color: #4a5270;
+}
+
+@media (max-width: 520px) {
+  .faq-sum {
+    gap: 12px;
+    padding: 16px;
+  }
+  .faq-num {
+    width: 32px;
+    height: 32px;
+  }
+  .faq-q {
+    font-size: 15px;
+  }
+  .faq-a {
+    padding: 0 16px 18px 16px;
+  }
+}
+</style>
