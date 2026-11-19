@@ -707,14 +707,18 @@ const devAreas = [
   font-weight: 800;
   box-shadow: 0 0 0 8px #eef3ff;
 }
-.pfl-tcard h3 {
-  margin: 0 0 8px;
-}
-.pfl-tcard p {
-  margin: 0;
-  line-height: 1.7;
-  color: #4a5270;
-}
+  .pfl-tcard {
+    padding: 16px 6px 14px;          /* padding samping lebih tipis */
+    border-radius: 16px;
+    min-width: 0;                    /* kartu boleh menyusut sesuai kolom */
+  }
+    .pfl-tcard h3 {
+    font-size: 10px;
+    line-height: 1.3;
+    margin-bottom: 4px;
+    letter-spacing: -0.2px;          /* huruf sedikit dirapatkan */
+    overflow-wrap: normal;           /* kata tidak dipecah lagi */
+  }
 
 /* ---------- Responsif ---------- */
 @media (max-width: 900px) {
@@ -746,6 +750,101 @@ const devAreas = [
   }
   .pfl-more {
     padding: 20px;
+  }
+
+  /* ===== kartu bidang: 2 kolom ===== */
+  .pfl-focus {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    align-items: stretch;
+  }
+  .pfl-fcard {
+    display: flex;
+    flex-direction: column;
+    border-radius: 18px;
+  }
+  .pfl-fhead {
+    height: 60px;
+  }
+  .pfl-fic {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    font-size: 14px;
+  }
+  .pfl-fbody {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 14px 12px 16px;
+  }
+  .pfl-fbody h3 {
+    font-size: 15px;
+    line-height: 1.3;
+    min-height: 2.6em;
+    margin-bottom: 6px;
+  }
+  .pfl-fbody p {
+    font-size: 12.5px;
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+  .pfl-fcap {
+    margin-top: auto;
+    font-size: 10px;
+    margin-bottom: 6px;
+  }
+  .pfl-ftags {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 5px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .pfl-ftags::-webkit-scrollbar {
+    display: none;
+  }
+  .pfl-ftags .tag {
+    flex: none;
+    font-size: 10.5px;
+    line-height: 1.2;
+    padding: 4px 8px;
+    white-space: nowrap;
+    scroll-snap-align: start;
+  }
+
+  /* ===== kartu tim: 3 kolom ===== */
+  .pfl-team {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+  .pfl-tcard {
+    padding: 14px 3px 12px;
+    border-radius: 14px;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .pfl-avatar {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    box-shadow: 0 0 0 5px #eef3ff;
+  }
+  .pfl-tcard h3 {
+    font-size: 10px;
+    line-height: 1.3;
+    margin-bottom: 4px;
+    letter-spacing: -0.2px;
+    overflow-wrap: normal;
+  }
+  .pfl-tcard p {
+    font-size: 11px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
   }
 }
 </style>
