@@ -472,12 +472,33 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
   .hm-title {
     margin-bottom: 28px;
   }
-  .hm-services {
-    grid-template-columns: 1fr;
-    gap: 14px;
+    .hm-services {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
   }
   .hm-svc {
-    padding: 22px 20px;
+    padding: 16px 14px;
+    border-radius: 18px;
+  }
+  .hm-svc-ic {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 12px;
+    border-radius: 13px;
+  }
+  .hm-svc b {
+    font-size: 14px;
+    line-height: 1.3;
+    margin-bottom: 6px;
+    overflow-wrap: break-word;
+  }
+  .hm-svc p {
+    font-size: 12.5px;
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+  .hm-go {
+    font-size: 12.5px;
   }
   .hm-feat {
     padding: 28px 20px;

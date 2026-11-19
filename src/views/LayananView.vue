@@ -118,4 +118,22 @@ const faqs = [
     transform: none;
   }
 }
+
+@media (max-width: 900px) {
+  .svl-item {
+    display: flex;
+    align-items: center;   /* semua isi sejajar di tengah secara vertikal */
+    gap: 12px;
+  }
+  .svl-item b {
+    flex: 1;               /* judul mengambil sisa ruang */
+    min-width: 0;          /* boleh membungkus ke baris baru */
+  }
+  .svl-go {
+    position: static;      /* ikut alur layout, tidak melayang */
+    flex: none;            /* tidak boleh menyusut */
+    white-space: nowrap;   /* tidak pecah jadi dua baris */
+    font-size: 11px;
+  }
+}
 </style>

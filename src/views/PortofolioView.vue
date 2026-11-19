@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { projects } from '../data/projects'
 import CtaBand from '../components/CtaBand.vue'
 import PageHero from '../components/PageHero.vue'
@@ -13,6 +13,31 @@ const visible = (tagList: string[]) => active.value === 'Semua' || tagList.inclu
 const count = (t: string) =>
   t === 'Semua' ? projects.length : projects.filter((p) => p.tags.includes(t)).length
 const total = computed(() => projects.filter((p) => visible(p.tags)).length)
+
+const track = ref<HTMLElement | null>(null)
+
+const slide = (dir: number) => {
+  const el = track.value
+  if (!el) return
+  el.scrollBy({ left: dir * (el.clientWidth + 12), behavior: 'smooth' })
+}
+
+let io: IntersectionObserver | null = null
+
+onMounted(() => {
+  const el = track.value
+  if (!el) return
+  io = new IntersectionObserver(
+    (entries) =>
+      entries.forEach((e) => {
+        if (e.isIntersecting) e.target.classList.add('pf-in')
+      }),
+    { root: el, threshold: 0.35 },
+  )
+  Array.from(el.children).forEach((c) => io!.observe(c))
+})
+
+onBeforeUnmount(() => io?.disconnect())
 
 // Poin singkat FOMO, sesuaikan dengan fitur yang benar-benar ada
 const fomoPoints = ['Catat pesanan dengan cepat', 'Total dan pembayaran otomatis', 'Laporan penjualan harian']
@@ -73,15 +98,28 @@ const fomoPoints = ['Catat pesanan dengan cepat', 'Total dan pembayaran otomatis
           </button>
         </div>
 
-        <div class="g3" style="margin-top: 32px">
-          <ProjectCard
-            v-for="(p, i) in projects"
-            v-show="visible(p.tags)"
-            :key="p.name"
-            :project="p"
-            :index="i"
-          />
-        </div>
+        <div class="pf-slider">
+  <div ref="track" class="g3">
+    <ProjectCard
+      v-for="(p, i) in projects"
+      v-show="visible(p.tags)"
+      :key="p.name"
+      :project="p"
+      :index="i"
+    />
+  </div>
+
+  <button class="pf-arrow pf-prev" type="button" aria-label="Proyek sebelumnya" @click="slide(-1)">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M15 6l-6 6 6 6" />
+    </svg>
+  </button>
+  <button class="pf-arrow pf-next" type="button" aria-label="Proyek berikutnya" @click="slide(1)">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9 6l6 6-6 6" />
+    </svg>
+  </button>
+</div>
 
         <p v-if="total === 0" class="pf-empty">Belum ada proyek untuk kategori ini.</p>
       </div>
@@ -204,6 +242,14 @@ const fomoPoints = ['Catat pesanan dengan cepat', 'Total dan pembayaran otomatis
   color: #4a5270;
 }
 
+.pf-slider {
+  position: relative;
+  margin-top: 32px;
+}
+.pf-arrow {
+  display: none;
+}
+
 @media (max-width: 820px) {
   .pf-feat {
     grid-template-columns: 1fr;
@@ -218,4 +264,63 @@ const fomoPoints = ['Catat pesanan dengan cepat', 'Total dan pembayaran otomatis
     padding: 24px 22px 28px;
   }
 }
+
+@media (max-width: 560px) {
+  .pf-slider .g3 {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 6px;
+  }
+  .pf-slider .g3::-webkit-scrollbar {
+    display: none;
+  }
+  .pf-slider .g3 > * {
+    flex: none;
+    width: 100%;
+    scroll-snap-align: start;
+    /* efek naik dari bawah */
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .pf-slider .g3 > .pf-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  .pf-arrow {
+    position: absolute;
+    top: 74px;
+    transform: translateY(-50%);
+    z-index: 5;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 50%;
+    background: #fff;
+    color: #1d3fd6;
+    box-shadow: 0 6px 16px rgba(8, 15, 51, 0.25);
+    cursor: pointer;
+  }
+  .pf-arrow:active {
+    transform: translateY(-50%) scale(0.92);
+  }
+  .pf-prev { left: 8px; }
+  .pf-next { right: 8px; }
+}
+
+@media (max-width: 560px) and (prefers-reduced-motion: reduce) {
+  .pf-slider .g3 > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 </style>
