@@ -72,7 +72,7 @@ const faqs = [
 
     <section class="sec">
       <div class="w">
-        <h2 class="rv" v-reveal style="text-align: center">Pertanyaan yang sering diajukan</h2>
+        <h2 class="rv faq-title" v-reveal>Pertanyaan yang sering diajukan</h2>
         <FaqList :items="faqs" />
       </div>
     </section>
@@ -82,6 +82,13 @@ const faqs = [
 </template>
 
 <style scoped>
+.faq-title {
+  max-width: 760px;
+  margin-inline: auto;
+  text-align: center;
+  text-wrap: balance;
+}
+
 .svl-item {
   position: relative;
   cursor: pointer;

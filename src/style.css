@@ -164,7 +164,7 @@ code{font:600 12px ui-monospace,Consolas,monospace;background:var(--b50);color:v
 
 :root{padding-bottom:env(safe-area-inset-bottom,0px)}
 /* isi halaman */
-.faq{margin-top:36px;max-width:820px}
+.faq{margin-top:36px;max-width:820px;margin-left:auto;margin-right:auto}
 .faq details{border:1px solid var(--b100);border-radius:20px;background:#fff;padding:0 24px;margin-bottom:12px}
 .faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;padding:20px 0;font-weight:800;color:var(--ink)}
 .faq summary::-webkit-details-marker{display:none}
@@ -345,13 +345,14 @@ header{padding:0 clamp(16px,4vw,64px)}header .w{max-width:none}
 #layanan .g3.tl{grid-template-columns:repeat(3,1fr);gap:24px;margin-top:44px}
 #layanan .tl .st{position:relative;flex-direction:column;gap:22px;padding:28px;border-radius:28px;background:#fff;border:1px solid var(--b100)}
 #layanan .tl .n{width:56px;height:56px;font-size:20px;background:linear-gradient(135deg,var(--b600),var(--ac));box-shadow:0 10px 22px rgba(29,63,214,.28)}
-#layanan .tl .st:not(:last-child)::after{content:"";position:absolute;top:56px;left:96px;right:-52px;height:2px;background:repeating-linear-gradient(90deg,var(--ac) 0 8px,transparent 8px 16px);z-index:1}
+#layanan .tl .st::after{content:"";position:absolute;top:55px;left:100px;right:28px;height:2px;background:repeating-linear-gradient(90deg,var(--ac) 0 8px,transparent 8px 16px)}
 #layanan .tl h3{font-size:20px}#layanan .tl .st p{margin-top:8px}
 @media(max-width:900px){
  #layanan .sv{grid-template-columns:1fr}#layanan .svm{min-height:260px}
  #layanan .g3.tl{grid-template-columns:1fr;gap:16px}
  #layanan .tl .st{flex-direction:row;gap:18px;align-items:flex-start}
  #layanan .tl .st:not(:last-child)::after{top:84px;bottom:-16px;left:55px;right:auto;width:2px;height:auto;background:repeating-linear-gradient(180deg,var(--ac) 0 8px,transparent 8px 16px)}
+ #layanan .tl .st:last-child::after{display:none}
 }
 @media(max-width:560px){#layanan .svl{grid-template-columns:1fr}#layanan .svl li{min-height:0;flex-direction:row;justify-content:flex-start;align-items:center;gap:16px;padding:18px}#layanan .tl .n{width:48px;height:48px}#layanan .tl .st{padding:22px 20px}#layanan .tl .st:not(:last-child)::after{left:43px;top:74px}}
 /* navbar menyesuaikan latar: gelap di beranda (hero gelap), terang di halaman dalam (hero terang) */
