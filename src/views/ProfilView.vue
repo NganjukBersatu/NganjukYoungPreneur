@@ -12,52 +12,6 @@ const stats = [
   { value: 'Nganjuk', label: 'kota asal kami' },
   { value: 'Semua jenis', label: 'software yang kami kerjakan' },
 ]
-
-// Contoh saja: sisakan yang benar-benar bisa kalian kerjakan
-const devAreas = [
-  {
-    title: 'Website',
-    text: 'Dari company profile sampai portal dengan banyak halaman.',
-    items: ['Company profile', 'Landing page', 'Website sekolah/UMKM'],
-    from: '#080f33',
-    to: '#1d3fd6',
-  },
-  {
-    title: 'Aplikasi mobile',
-    text: 'Aplikasi Android dan iOS untuk kebutuhan usaha.',
-    items: ['Aplikasi kasir', 'Pesan antar', 'Absensi'],
-    from: '#123f2f',
-    to: '#23624a',
-  },
-  {
-    title: 'Sistem informasi',
-    text: 'Sistem untuk merapikan kerja kantor dan usaha.',
-    items: ['Inventaris', 'Keuangan', 'Kepegawaian'],
-    from: '#080f33',
-    to: '#14b1f5',
-  },
-  {
-    title: 'Kasir dan toko online',
-    text: 'Penjualan, stok, dan laporan dalam satu sistem.',
-    items: ['POS', 'Toko online', 'Laporan penjualan'],
-    from: '#3b1d8f',
-    to: '#7a4dff',
-  },
-  {
-    title: 'Backend dan integrasi',
-    text: 'Server, database, dan sambungan ke layanan lain.',
-    items: ['API', 'Pembayaran', 'Notifikasi WhatsApp'],
-    from: '#0b4a5c',
-    to: '#14a3b8',
-  },
-  {
-    title: 'UI/UX dan perawatan',
-    text: 'Rancangan tampilan serta perbaikan dan pengembangan lanjutan.',
-    items: ['Prototipe', 'Desain ulang', 'Pemeliharaan'],
-    from: '#8a2d12',
-    to: '#e0723a',
-  },
-]
 </script>
 
 <template>
@@ -157,42 +111,6 @@ const devAreas = [
               </li>
             </ul>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- BIDANG -->
-    <section id="p-fokus" class="sec" style="padding-top: 0">
-      <div class="w">
-        <div class="pfl-title rv" v-reveal>
-          <h2>Bidang yang kami kerjakan</h2>
-          <p>Kami mengerjakan pengembangan software dari awal sampai jadi, mulai dari website sampai sistem yang kompleks.</p>
-        </div>
-        <div class="pfl-focus">
-          <article
-            v-for="(f, i) in devAreas"
-            :key="f.title"
-            class="pfl-fcard rv"
-            v-reveal
-            :style="delay(i)"
-          >
-            <div class="pfl-fhead" :style="{ '--g1': f.from, '--g2': f.to }">
-              <span class="pfl-fic">{{ String(i + 1).padStart(2, '0') }}</span>
-            </div>
-            <div class="pfl-fbody">
-              <h3>{{ f.title }}</h3>
-              <p>{{ f.text }}</p>
-              <small class="pfl-fcap">Contoh pekerjaan</small>
-              <div class="pfl-ftags">
-                <span v-for="t in f.items" :key="t" class="tag">{{ t }}</span>
-              </div>
-            </div>
-          </article>
-        </div>
-
-        <div class="pfl-more rv" v-reveal>
-          <p>Kebutuhan Anda belum ada di daftar? Ceritakan saja, kami bantu carikan solusinya.</p>
-          <a class="btn bp" href="#kontak">Konsultasi sekarang</a>
         </div>
       </div>
     </section>
@@ -551,83 +469,6 @@ const devAreas = [
   color: #fff;
 }
 
-/* ---------- Bidang ---------- */
-.pfl-focus {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-}
-.pfl-fcard {
-  overflow: hidden;
-  border-radius: 24px;
-  background: #fff;
-  border: 1px solid rgba(29, 63, 214, 0.12);
-  box-shadow: 0 2px 10px rgba(8, 15, 51, 0.04);
-  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-}
-.pfl-fcard:hover {
-  transform: translateY(-5px);
-  border-color: rgba(29, 63, 214, 0.35);
-  box-shadow: 0 22px 46px rgba(29, 63, 214, 0.14);
-}
-.pfl-fhead {
-  display: grid;
-  place-items: center;
-  height: 120px;
-  background: linear-gradient(135deg, var(--g1), var(--g2));
-}
-.pfl-fic {
-  display: grid;
-  place-items: center;
-  width: 64px;
-  height: 64px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  color: #fff;
-  font-size: 22px;
-  font-weight: 800;
-}
-.pfl-fbody {
-  padding: 22px 24px 26px;
-}
-.pfl-fbody h3 {
-  margin: 0 0 8px;
-}
-.pfl-fbody p {
-  margin: 0 0 16px;
-  line-height: 1.7;
-  color: #4a5270;
-}
-.pfl-fcap {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #8089a6;
-}
-
-.pfl-more {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 18px;
-  margin-top: 28px;
-  padding: 22px 28px;
-  border-radius: 22px;
-  background: #eef3ff;
-  border: 1px dashed rgba(29, 63, 214, 0.35);
-}
-.pfl-more p {
-  margin: 0;
-  font-weight: 600;
-  line-height: 1.6;
-  color: #080f33;
-}
-
 /* ---------- Nilai ---------- */
 .pfl-values {
   display: grid;
@@ -707,18 +548,6 @@ const devAreas = [
   font-weight: 800;
   box-shadow: 0 0 0 8px #eef3ff;
 }
-  .pfl-tcard {
-    padding: 16px 6px 14px;          /* padding samping lebih tipis */
-    border-radius: 16px;
-    min-width: 0;                    /* kartu boleh menyusut sesuai kolom */
-  }
-    .pfl-tcard h3 {
-    font-size: 10px;
-    line-height: 1.3;
-    margin-bottom: 4px;
-    letter-spacing: -0.2px;          /* huruf sedikit dirapatkan */
-    overflow-wrap: normal;           /* kata tidak dipecah lagi */
-  }
 
 /* ---------- Responsif ---------- */
 @media (max-width: 900px) {
@@ -733,7 +562,27 @@ const devAreas = [
   .pfl-mission {
     padding: 34px 28px;
   }
+
+  /* tim: 3 kartu satu baris di tablet */
+  .pfl-team {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .pfl-tcard {
+    padding: 24px 14px 22px;
+    border-radius: 20px;
+    min-width: 0;
+  }
+  .pfl-tcard h3 {
+    font-size: 16px;
+  }
+  .pfl-tcard p {
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
 }
+
 @media (max-width: 560px) {
   .pfl-stats {
     grid-template-columns: 1fr;
@@ -747,73 +596,6 @@ const devAreas = [
   }
   .pfl-val {
     padding: 18px;
-  }
-  .pfl-more {
-    padding: 20px;
-  }
-
-  /* ===== kartu bidang: 2 kolom ===== */
-  .pfl-focus {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-    align-items: stretch;
-  }
-  .pfl-fcard {
-    display: flex;
-    flex-direction: column;
-    border-radius: 18px;
-  }
-  .pfl-fhead {
-    height: 60px;
-  }
-  .pfl-fic {
-    width: 38px;
-    height: 38px;
-    border-radius: 12px;
-    font-size: 14px;
-  }
-  .pfl-fbody {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 14px 12px 16px;
-  }
-  .pfl-fbody h3 {
-    font-size: 15px;
-    line-height: 1.3;
-    min-height: 2.6em;
-    margin-bottom: 6px;
-  }
-  .pfl-fbody p {
-    font-size: 12.5px;
-    line-height: 1.55;
-    margin-bottom: 12px;
-  }
-  .pfl-fcap {
-    margin-top: auto;
-    font-size: 10px;
-    margin-bottom: 6px;
-  }
-  .pfl-ftags {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 5px;
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-bottom: 2px;
-  }
-  .pfl-ftags::-webkit-scrollbar {
-    display: none;
-  }
-  .pfl-ftags .tag {
-    flex: none;
-    font-size: 10.5px;
-    line-height: 1.2;
-    padding: 4px 8px;
-    white-space: nowrap;
-    scroll-snap-align: start;
   }
 
   /* ===== kartu tim: 3 kolom ===== */
@@ -845,6 +627,38 @@ const devAreas = [
     font-size: 11px;
     line-height: 1.5;
     overflow-wrap: anywhere;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 900px) {
+  .pfl-values {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .pfl-val {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+    padding: 18px 14px;
+  }
+  .pfl-val > div {
+    display: contents;
+  }
+  .pfl-num {
+    width: 34px;
+    height: 34px;
+    font-size: 12px;
+  }
+  .pfl-val b {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.25;
+  }
+  .pfl-val p {
+    grid-column: 1 / -1;
+    font-size: 13px;
+    line-height: 1.6;
   }
 }
 </style>

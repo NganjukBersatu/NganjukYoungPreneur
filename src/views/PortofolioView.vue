@@ -265,7 +265,7 @@ const fomoPoints = ['Catat pesanan dengan cepat', 'Total dan pembayaran otomatis
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 900px) {
   .pf-slider .g3 {
     display: flex;
     gap: 12px;
@@ -280,7 +280,7 @@ const fomoPoints = ['Catat pesanan dengan cepat', 'Total dan pembayaran otomatis
   }
   .pf-slider .g3 > * {
     flex: none;
-    width: 100%;
+    width: calc((100% - 12px) / 2);
     scroll-snap-align: start;
     /* efek naik dari bawah */
     opacity: 0;
@@ -315,11 +315,18 @@ const fomoPoints = ['Catat pesanan dengan cepat', 'Total dan pembayaran otomatis
   .pf-next { right: 8px; }
 }
 
-@media (max-width: 560px) and (prefers-reduced-motion: reduce) {
+@media (max-width: 900px) and (prefers-reduced-motion: reduce) {
   .pf-slider .g3 > * {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+}
+
+/* HP: 1 kartu per layar */
+@media (max-width: 560px) {
+  .pf-slider .g3 > * {
+    width: 100%;
   }
 }
 
