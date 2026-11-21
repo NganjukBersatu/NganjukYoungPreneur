@@ -85,6 +85,73 @@ const details: Record<string, Detail> = {
       cta: 'Konsultasikan kebutuhan Anda',
     },
   },
+
+  // CEK: draf dari isi projects.ts dan halaman Layanan, cocokkan fitur dan status dengan kenyataan
+  myth: {
+    lead: 'Website dengan rancangan antarmuka yang dibuat khusus, agar tampil unik dan nyaman dipakai pengunjung.',
+    headline: 'Website dengan tampilan khusus',
+    aboutTitle: 'Tentang proyek ini',
+    paragraphs: [
+      'Myth adalah website yang kami rancang dengan antarmuka khusus. Tampilannya dibuat sendiri, bukan template yang dipakai banyak orang, sehingga identitasnya terasa unik.',
+      'Kami memulai dari rancangan tampilan dan alur pengguna, lalu mewujudkannya menjadi website yang rapi dan nyaman dipakai pengunjung, baik di HP maupun komputer.',
+    ],
+    featuresTitle: 'Apa yang kami kerjakan',
+    features: [
+      { title: 'Rancangan antarmuka khusus', text: 'Warna, huruf, dan tata letak dirancang sendiri agar tampil unik.' },
+      { title: 'Alur yang mudah diikuti', text: 'Pengunjung langsung paham ke mana harus melihat dan menekan.' },
+      { title: 'Tampil rapi di semua layar', text: 'Tampilan menyesuaikan HP, tablet, dan komputer.' },
+      { title: 'Pengembangan website', text: 'Rancangan diwujudkan menjadi website yang siap dipakai.' },
+    ],
+    service: 'Desain UI/UX dan website',
+    status: 'Sudah digunakan', // CEK: ganti "Dalam pengembangan" kalau belum
+    custom: {
+      badge: 'Penawaran khusus',
+      title: 'Ingin website dengan tampilan khusus untuk usaha Anda?',
+      text: 'Tampilan Myth bisa kami sesuaikan dengan identitas usaha Anda. Ceritakan kebutuhan Anda, lalu kami rancang website yang pas, bukan tampilan umum yang sama dengan yang lain.',
+      options: [
+        { title: 'Rancangan sesuai identitas', text: 'Warna, logo, dan gaya disamakan dengan brand Anda.' },
+        { title: 'Lihat rancangan dulu', text: 'Anda bisa melihat dan mengoreksi tampilan sebelum pengerjaan dimulai.' },
+        { title: 'Halaman sesuai kebutuhan', text: 'Hanya halaman yang Anda butuhkan, bisa ditambah kemudian.' },
+        { title: 'Pendampingan awal', text: 'Kami bantu Anda memakai website setelah selesai.' },
+      ],
+      businessesTitle: 'Cocok untuk berbagai kebutuhan',
+      businesses: ['UMKM', 'Sekolah', 'Organisasi', 'Komunitas', 'Usaha lainnya'],
+      cta: 'Konsultasikan kebutuhan Anda',
+    },
+  },
+
+  // CEK: draf dari isi projects.ts dan halaman Layanan, cocokkan modul dan status dengan kenyataan
+  'office-hub': {
+    lead: 'Sistem informasi berbasis web untuk membantu pengelolaan data dan kegiatan kantor sehari-hari.',
+    headline: 'Sistem informasi untuk kantor',
+    aboutTitle: 'Tentang proyek ini',
+    paragraphs: [
+      'Office Hub adalah sistem informasi berbasis web yang membantu kantor mengelola data dan kegiatan sehari-hari dalam satu tempat, tidak lagi tersebar di kertas dan spreadsheet.',
+      'Karena berbasis web, sistem ini bisa dibuka lewat browser tanpa perlu memasang aplikasi tambahan.',
+    ],
+    featuresTitle: 'Apa yang bisa dilakukan sistem ini',
+    features: [
+      { title: 'Pengelolaan data kantor', text: 'Data dicatat dan dicari di satu tempat, lebih rapi dan mudah ditemukan.' },
+      { title: 'Pencatatan kegiatan', text: 'Kegiatan kantor sehari-hari tercatat dengan jelas.' },
+      { title: 'Dibuka lewat browser', text: 'Tidak perlu memasang aplikasi, cukup buka dari komputer atau HP.' },
+    ],
+    service: 'Sistem informasi kantor',
+    status: 'Sudah digunakan', // CEK: ganti "Dalam pengembangan" kalau belum
+    custom: {
+      badge: 'Penawaran khusus',
+      title: 'Ingin sistem informasi seperti ini untuk kantor Anda?',
+      text: 'Office Hub bisa kami sesuaikan dengan cara kerja kantor Anda. Ceritakan alur kerja dan data yang Anda kelola, lalu kami rancang sistem yang pas.',
+      options: [
+        { title: 'Modul sesuai kebutuhan', text: 'Hanya fitur yang dipakai kantor Anda yang dibuat.' },
+        { title: 'Data sesuai alur kerja', text: 'Isian dan laporan disusun mengikuti cara kerja tim Anda.' },
+        { title: 'Hak akses pengguna', text: 'Setiap pengguna hanya melihat bagian yang menjadi tugasnya.' },
+        { title: 'Pendampingan penggunaan', text: 'Kami bantu tim Anda terbiasa sebelum dipakai sehari-hari.' },
+      ],
+      businessesTitle: 'Cocok untuk berbagai instansi',
+      businesses: ['Kantor', 'Sekolah', 'Organisasi', 'Komunitas', 'Usaha lainnya'],
+      cta: 'Konsultasikan kebutuhan Anda',
+    },
+  },
 }
 
 const project = computed(() => projects.find((p) => slugify(p.name) === slug.value))
@@ -414,7 +481,7 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
 }
 .pdv-btn-light {
   background: #fff;
-  color: #123f2f;
+  color: var(--g1); /* ikut warna proyek (FOMO hijau, Myth dan Office Hub biru tua) */
   border: 0;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
 }
@@ -866,6 +933,32 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
   .pdv-offer-btn {
     width: 100%;
     justify-content: center;
+  }
+}
+
+/* ---------- Kapsul usaha: geser satu baris di HP ---------- */
+.pdv-biz {
+  min-width: 0;
+  max-width: 100%;
+}
+
+@media (max-width: 560px) {
+  .pdv-biz > div {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+    -webkit-mask-image: linear-gradient(to right, #000 88%, transparent);
+    mask-image: linear-gradient(to right, #000 88%, transparent);
+  }
+  .pdv-biz > div::-webkit-scrollbar {
+    display: none;
+  }
+  .pdv-chip {
+    flex: none;
+    white-space: nowrap;
+    scroll-snap-align: start;
   }
 }
 </style>
