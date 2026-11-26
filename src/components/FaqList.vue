@@ -1,11 +1,19 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+
 defineProps<{ items: { q: string; a: string }[] }>()
+
+// Hanya satu pertanyaan yang terbuka: membuka yang lain otomatis menutup yang sebelumnya
+const openIndex = ref<number | null>(0)
+const toggle = (i: number) => {
+  openIndex.value = openIndex.value === i ? null : i
+}
 </script>
 
 <template>
   <div class="faq">
-    <details v-for="(item, i) in items" :key="item.q" class="faq-item rv" v-reveal :open="i === 0">
-      <summary class="faq-sum">
+    <details v-for="(item, i) in items" :key="item.q" class="faq-item rv" v-reveal :open="openIndex === i">
+      <summary class="faq-sum" @click.prevent="toggle(i)">
         <span class="faq-num">{{ String(i + 1).padStart(2, '0') }}</span>
         <span class="faq-q">{{ item.q }}</span>
         <span class="faq-ic" aria-hidden="true"></span>
@@ -22,23 +30,23 @@ defineProps<{ items: { q: string; a: string }[] }>()
   max-width: 800px;
   margin: 32px auto 0;
   display: grid;
-  gap: 14px;
+  gap: 16px;
 }
 
 .faq-item {
   background: #fff;
   border: 1px solid rgba(29, 63, 214, 0.12);
-  border-radius: 18px;
-  box-shadow: 0 2px 10px rgba(8, 15, 51, 0.04);
+  border-radius: 8px;
+  box-shadow: var(--sh-1);
   overflow: hidden;
-  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  transition: border-color 150ms, box-shadow 150ms, background 150ms;
 }
 .faq-item:hover {
   border-color: rgba(29, 63, 214, 0.35);
 }
 .faq-item[open] {
   border-color: #1d3fd6;
-  box-shadow: 0 12px 30px rgba(29, 63, 214, 0.12);
+  box-shadow: var(--sh-1);
 }
 
 /* Susunan: [nomor] [pertanyaan .......] [ikon] */
@@ -47,7 +55,7 @@ defineProps<{ items: { q: string; a: string }[] }>()
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 16px;
-  padding: 18px 20px;
+  padding: 20px 20px;
   cursor: pointer;
   list-style: none;
   user-select: none;
@@ -64,7 +72,7 @@ defineProps<{ items: { q: string; a: string }[] }>()
 .faq-sum:focus-visible {
   outline: 2px solid #1d3fd6;
   outline-offset: -4px;
-  border-radius: 18px;
+  border-radius: 8px;
 }
 
 .faq-num {
@@ -72,12 +80,12 @@ defineProps<{ items: { q: string; a: string }[] }>()
   place-items: center;
   width: 36px;
   height: 36px;
-  border-radius: 10px;
+  border-radius: 8px;
   background: #eef3ff;
   color: #1d3fd6;
   font-size: 13px;
-  font-weight: 800;
-  transition: background 0.2s, color 0.2s;
+  font-weight: 700;
+  transition: background 150ms, color 150ms;
 }
 .faq-item[open] .faq-num {
   background: #1d3fd6;
@@ -98,7 +106,7 @@ defineProps<{ items: { q: string; a: string }[] }>()
   height: 30px;
   border-radius: 50%;
   background: #eef3ff;
-  transition: background 0.2s, transform 0.25s;
+  transition: background 150ms, transform 240ms;
 }
 .faq-ic::before,
 .faq-ic::after {
@@ -108,10 +116,10 @@ defineProps<{ items: { q: string; a: string }[] }>()
   left: 50%;
   width: 12px;
   height: 2px;
-  margin: -1px 0 0 -6px;
+  margin: -2px 0 0 -6px;
   border-radius: 2px;
   background: #1d3fd6;
-  transition: transform 0.25s, background 0.2s;
+  transition: transform 240ms, background 150ms;
 }
 .faq-ic::after {
   transform: rotate(90deg);
@@ -129,11 +137,11 @@ defineProps<{ items: { q: string; a: string }[] }>()
 
 /* Jawaban sejajar dengan teks pertanyaan (melewati kolom nomor) */
 .faq-a {
-  padding: 0 20px 20px 72px;
+  padding: 0 20px 20px 80px;
 }
 .faq-a p {
   margin: 0;
-  padding-top: 14px;
+  padding-top: 16px;
   border-top: 1px dashed rgba(29, 63, 214, 0.2);
   line-height: 1.7;
   color: #4a5270;
@@ -152,7 +160,7 @@ defineProps<{ items: { q: string; a: string }[] }>()
     font-size: 15px;
   }
   .faq-a {
-    padding: 0 16px 18px 16px;
+    padding: 0 16px 20px 16px;
   }
 }
 </style>

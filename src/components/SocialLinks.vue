@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import { contact } from '../data/site'
 import AppIcon from './AppIcon.vue'
-// Ganti href="#" dengan tautan media sosial asli
 </script>
 
 <template>
   <div class="soc">
-    <a href="#" aria-label="Instagram" @click.prevent><AppIcon name="ig" /></a>
-    <a href="#" aria-label="GitHub" @click.prevent><AppIcon name="gh" /></a>
-    <a href="#" aria-label="LinkedIn" @click.prevent><AppIcon name="li" /></a>
+    <a :href="contact.instagramUrl" target="_blank" rel="noopener noreferrer" aria-label="Instagram Nganjuk Digital Preneur">
+      <AppIcon name="ig" />
+    </a>
   </div>
 </template>

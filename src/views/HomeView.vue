@@ -5,7 +5,7 @@ import { projects } from '../data/projects'
 import { delay } from '../utils/delay'
 import { slugify } from '../utils/slug'
 import AppIcon from '../components/AppIcon.vue'
-import HeroIllustration from '../components/HeroIllustration.vue'
+import HeroOrbit from '../components/HeroOrbit.vue'
 
 const main = services[0]
 
@@ -32,7 +32,7 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
 
 <template>
   <div id="beranda" class="pg on">
-    <!-- HERO (tidak diubah) -->
+    <!-- HERO -->
     <section class="dk hero">
       <div class="w hg">
         <div>
@@ -46,7 +46,7 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
         </div>
         <div class="rv hv" v-reveal style="--d: 250ms">
           <div class="hglow"></div>
-          <HeroIllustration />
+          <HeroOrbit />
         </div>
       </div>
     </section>
@@ -73,13 +73,13 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
               <span class="hm-svc-ic"><AppIcon :name="s.icon" /></span>
               <b>{{ s.name }}</b>
               <p>{{ s.text }}</p>
-              <span class="hm-go">Lihat detail <span aria-hidden="true">&rarr;</span></span>
+              <span class="hm-go">Lihat detail</span>
             </a>
           </div>
         </div>
 
         <div class="hm-more rv" v-reveal style="--d: 200ms">
-          <a class="hm-link" href="#layanan">Lihat semua layanan <span aria-hidden="true">&rarr;</span></a>
+          <a class="hm-link" href="#layanan">Lihat semua layanan</a>
         </div>
       </div>
     </section>
@@ -103,10 +103,10 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
               <span class="hm-feat-badge">Proyek unggulan</span>
               <h3>Aplikasi kasir untuk FOMO</h3>
               <p>Pesanan pelanggan dicatat langsung di aplikasi mobile, dengan tampilan sederhana yang mudah dipelajari kasir.</p>
-              <span class="hm-feat-go">Baca selengkapnya <span aria-hidden="true">&rarr;</span></span>
+              <span class="hm-feat-go">Baca selengkapnya</span>
             </div>
             <div class="hm-feat-logo">
-              <img v-if="featured.logo" :src="featured.logo" alt="Logo FOMO" />
+              <img loading="lazy" decoding="async" v-if="featured.logo" :src="featured.logo" alt="Logo FOMO" />
               <span v-else>{{ featured.initial }}</span>
             </div>
           </a>
@@ -114,10 +114,10 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
 
         <div class="hm-more hm-more-row rv" v-reveal style="--d: 200ms">
           <span v-if="others.length" class="hm-others">
-            Juga:
+            Proyek lain
             <a v-for="o in others" :key="o.name" :href="'#portofolio/' + slugify(o.name)">{{ o.name }}</a>
           </span>
-          <a class="hm-link" href="#portofolio">Lihat semua portofolio <span aria-hidden="true">&rarr;</span></a>
+          <a class="hm-link" href="#portofolio">Lihat semua portofolio</a>
         </div>
       </div>
     </section>
@@ -155,11 +155,11 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
 /* ---------- Judul bagian ---------- */
 .hm-title {
   max-width: 640px;
-  margin: 0 auto 36px;
+  margin: 0 auto 40px;
   text-align: center;
 }
 .hm-title h2 {
-  margin: 0 0 10px;
+  margin: 0 0 12px;
 }
 .hm-title p {
   margin: 0;
@@ -169,19 +169,19 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
 .hm-eyebrow {
   display: inline-block;
   margin-bottom: 12px;
-  padding: 5px 14px;
+  padding: 6px 16px;
   border-radius: 999px;
   background: #eef3ff;
   color: #1d3fd6;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
 /* ---------- Link "lihat semua" ---------- */
 .hm-more {
-  margin-top: 28px;
+  margin-top: 32px;
   text-align: center;
 }
 .hm-more-row {
@@ -189,19 +189,24 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 16px;
   text-align: left;
 }
 .hm-link {
-  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 6px;
+  background: #fff;
+  border: 1.5px solid #1d3fd6;
   color: #1d3fd6;
+  font-weight: 700;
+  font-size: 15px;
   text-decoration: none;
-}
-.hm-link span,
-.hm-go span,
-.hm-feat-go span {
-  display: inline-block;
-  transition: transform 0.2s;
+  box-shadow: var(--sh-1);
+  transition: background 150ms, color 150ms, transform 150ms, box-shadow 150ms;
 }
 .hm-others {
   display: flex;
@@ -212,21 +217,21 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
   color: #4a5270;
 }
 .hm-others a {
-  padding: 5px 14px;
+  padding: 6px 16px;
   border-radius: 999px;
   background: #fff;
   border: 1px solid rgba(29, 63, 214, 0.18);
   color: #1d3fd6;
   font-weight: 700;
   text-decoration: none;
-  transition: background 0.2s, color 0.2s;
+  transition: background 150ms, color 150ms;
 }
 
 /* ---------- Layanan ---------- */
 .hm-services {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
+  gap: 20px;
 }
 .hm-cell {
   display: flex;
@@ -235,25 +240,25 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 26px 24px;
-  border-radius: 24px;
+  padding: 24px 24px;
+  border-radius: 8px;
   background: #fff;
   border: 1px solid rgba(29, 63, 214, 0.12);
-  box-shadow: 0 2px 10px rgba(8, 15, 51, 0.04);
+  box-shadow: var(--sh-1);
   color: inherit;
   text-decoration: none;
-  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  transition: transform 240ms, box-shadow 240ms, border-color 240ms;
 }
 .hm-svc-ic {
   display: grid;
   place-items: center;
   width: 52px;
   height: 52px;
-  margin-bottom: 18px;
-  border-radius: 16px;
+  margin-bottom: 20px;
+  border-radius: 8px;
   background: #eef3ff;
   color: #1d3fd6;
-  transition: background 0.2s, color 0.2s, transform 0.25s;
+  transition: background 150ms, color 150ms, transform 240ms;
 }
 .hm-svc b {
   margin-bottom: 8px;
@@ -267,13 +272,22 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
   color: #4a5270;
 }
 .hm-go {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 6px;
+  background: #eef3ff;
+  border: 1px solid rgba(29, 63, 214, 0.25);
   font-size: 14px;
   font-weight: 700;
   color: #1d3fd6;
+  transition: background 150ms, color 150ms, border-color 150ms;
 }
 .hm-svc:focus-visible,
 .hm-feat:focus-visible {
-  outline: 3px solid rgba(29, 63, 214, 0.4);
+  outline: 2px solid #1d3fd6;
   outline-offset: 3px;
 }
 
@@ -286,12 +300,12 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
   gap: 24px;
   padding: 40px 48px;
   overflow: hidden;
-  border-radius: 28px;
+  border-radius: 12px;
   color: #fff;
   text-decoration: none;
-  background: linear-gradient(135deg, var(--g1), var(--g2));
-  box-shadow: 0 24px 60px rgba(8, 15, 51, 0.2);
-  transition: transform 0.25s, box-shadow 0.25s;
+  background: var(--g1);
+  box-shadow: var(--sh-1);
+  transition: transform 240ms, box-shadow 240ms;
 }
 .hm-feat::before {
   content: '';
@@ -301,7 +315,7 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
   right: -90px;
   top: -140px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.16), transparent 65%);
+  background: none;
   pointer-events: none;
 }
 .hm-feat > * {
@@ -310,28 +324,37 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
 .hm-feat-badge {
   display: inline-block;
   margin-bottom: 12px;
-  padding: 5px 14px;
+  padding: 6px 16px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.16);
   border: 1px solid rgba(255, 255, 255, 0.24);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 .hm-feat h3 {
-  margin: 0 0 10px;
+  margin: 0 0 12px;
   font-size: clamp(22px, 3vw, 30px);
   color: #fff;
 }
 .hm-feat p {
-  margin: 0 0 18px;
+  margin: 0 0 20px;
   max-width: 460px;
   line-height: 1.7;
   color: rgba(255, 255, 255, 0.85);
 }
 .hm-feat-go {
+  display: inline-flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 6px;
+  background: #fff;
+  color: #0b1a66;
   font-weight: 700;
+  box-shadow: var(--sh-1);
+  transition: background 150ms, transform 150ms;
 }
 .hm-feat-logo {
   display: grid;
@@ -342,10 +365,9 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.22);
-  box-shadow: 0 0 0 14px rgba(255, 255, 255, 0.06), 0 24px 50px rgba(0, 0, 0, 0.22);
+  box-shadow: none;
   font-size: 80px;
-  font-weight: 800;
-  animation: hm-float 5s ease-in-out infinite, hm-ring 3.2s ease-in-out infinite;
+  font-weight: 700;
 }
 .hm-feat-logo img {
   width: 82%;
@@ -353,24 +375,6 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
   object-fit: contain;
 }
 
-@keyframes hm-float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-@keyframes hm-ring {
-  0%,
-  100% {
-    box-shadow: 0 0 0 14px rgba(255, 255, 255, 0.06), 0 24px 50px rgba(0, 0, 0, 0.22);
-  }
-  50% {
-    box-shadow: 0 0 0 22px rgba(255, 255, 255, 0.1), 0 24px 50px rgba(0, 0, 0, 0.22);
-  }
-}
 
 /* ---------- Profil ---------- */
 .hm-about {
@@ -378,12 +382,12 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 28px;
+  gap: 32px;
   padding: 40px 48px;
-  border-radius: 28px;
+  border-radius: 12px;
   background: #fff;
   border: 1px solid rgba(29, 63, 214, 0.12);
-  box-shadow: 0 20px 50px rgba(8, 15, 51, 0.08);
+  box-shadow: var(--sh-1);
 }
 .hm-about > div {
   flex: 1 1 420px;
@@ -405,8 +409,8 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 20px;
-  padding: 36px 44px;
-  border-radius: 28px;
+  padding: 40px 48px;
+  border-radius: 12px;
   background: #eef3ff;
   border: 1px dashed rgba(29, 63, 214, 0.35);
 }
@@ -423,28 +427,60 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
   .hm-svc:hover {
     transform: translateY(-5px);
     border-color: rgba(29, 63, 214, 0.35);
-    box-shadow: 0 22px 46px rgba(29, 63, 214, 0.14);
+    box-shadow: var(--sh-2);
   }
   .hm-svc:hover .hm-svc-ic {
     background: #1d3fd6;
     color: #fff;
     transform: rotate(-6deg) scale(1.06);
   }
-  .hm-svc:hover .hm-go span,
-  .hm-link:hover span {
-    transform: translateX(4px);
+  .hm-svc:hover .hm-go {
+    background: #1d3fd6;
+    border-color: #1d3fd6;
+    color: #fff;
+  }
+  .hm-link:hover {
+    background: #1d3fd6;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: var(--sh-2);
   }
   .hm-feat:hover {
     transform: translateY(-4px);
-    box-shadow: 0 30px 70px rgba(8, 15, 51, 0.28);
+    box-shadow: var(--sh-2);
   }
-  .hm-feat:hover .hm-feat-go span {
-    transform: translateX(5px);
+  .hm-feat:hover .hm-feat-go {
+    background: var(--ac, #14b1f5);
+    color: #080f33;
   }
   .hm-others a:hover {
     background: #1d3fd6;
     color: #fff;
   }
+}
+
+.hero .chips {
+  margin-top: 28px;
+}
+.hero .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  color: #dff4ff;
+  background: rgba(20, 177, 245, 0.12);
+  border-color: rgba(20, 177, 245, 0.45);
+}
+.hero .chip::before {
+  content: '';
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ac);
+  box-shadow: 0 0 0 4px rgba(20, 177, 245, 0.22);
 }
 
 /* ---------- Responsif ---------- */
@@ -456,7 +492,7 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
 @media (max-width: 900px) {
   .hm-feat {
     grid-template-columns: 1fr;
-    padding: 34px 28px;
+    padding: 32px 32px;
   }
   .hm-feat-logo {
     order: -1;
@@ -465,26 +501,26 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
     font-size: 60px;
   }
   .hm-about {
-    padding: 32px 28px;
+    padding: 32px 32px;
   }
 }
 @media (max-width: 560px) {
   .hm-title {
-    margin-bottom: 28px;
+    margin-bottom: 32px;
   }
     .hm-services {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    gap: 12px;
   }
   .hm-svc {
-    padding: 16px 14px;
-    border-radius: 18px;
+    padding: 16px 16px;
+    border-radius: 8px;
   }
   .hm-svc-ic {
     width: 42px;
     height: 42px;
     margin-bottom: 12px;
-    border-radius: 13px;
+    border-radius: 8px;
   }
   .hm-svc b {
     font-size: 14px;
@@ -498,16 +534,23 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
     margin-bottom: 12px;
   }
   .hm-go {
+    height: 32px;
+    padding: 0 16px;
     font-size: 12.5px;
   }
+  .hm-link {
+    height: 48px;
+    padding: 0 24px;
+    font-size: 14px;
+  }
   .hm-feat {
-    padding: 28px 20px;
-    border-radius: 24px;
+    padding: 32px 20px;
+    border-radius: 8px;
   }
   .hm-about,
   .hm-final {
-    padding: 26px 22px;
-    border-radius: 24px;
+    padding: 24px 24px;
+    border-radius: 8px;
   }
   .hm-about > div {
     flex-basis: 100%;
@@ -531,9 +574,9 @@ const others = computed(() => projects.filter((p) => p.name !== 'Fomo'))
   .hm-svc,
   .hm-feat,
   .hm-svc-ic,
-  .hm-link span,
-  .hm-go span,
-  .hm-feat-go span {
+  .hm-link,
+  .hm-go,
+  .hm-feat-go {
     transition: none;
   }
 }

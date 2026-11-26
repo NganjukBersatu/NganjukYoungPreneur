@@ -1,5 +1,7 @@
 import type { Project } from '../types'
 import fomoLogo from '../assets/fomo-logo.png'
+import sachiLogo from '../assets/sachi-logo.png'
+import iwageprekLogo from '../assets/iwageprek-logo.png'
 
 export const projects: Project[] = [
   {
@@ -26,5 +28,23 @@ export const projects: Project[] = [
     desc: 'Sistem informasi berbasis web untuk membantu pengelolaan data dan kegiatan kantor sehari-hari.',
     from: '#080f33',
     to: '#14b1f5',
+  },
+  {
+    name: 'Sachi Sweet',
+    initial: 'S',
+    tags: ['Web', 'Company profile'],
+    desc: 'Website company profile untuk Cafe Sachi Sweet, dilengkapi dashboard admin untuk mengelola produk.',
+    from: '#fdf2de',
+    to: '#ffffff',
+    logo: sachiLogo,
+  },
+  {
+    name: 'IwaGeprek',
+    initial: 'I',
+    tags: ['Web', 'Landing page'],
+    desc: 'Landing page untuk IWAGEPREK, usaha ikan geprek di Kertosono, Nganjuk, lengkap dengan menu dan kontak resmi.',
+    from: '#031a2b',
+    to: '#0a7fb0',
+    logo: iwageprekLogo,
   },
 ]

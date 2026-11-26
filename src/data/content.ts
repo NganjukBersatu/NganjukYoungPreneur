@@ -45,7 +45,6 @@ export const teamGroups = [
 export const profileSections = [
   { id: 'p-siapa', label: 'Siapa kami' },
   { id: 'p-visi', label: 'Visi dan misi' },
-  { id: 'p-fokus', label: 'Bidang' },
   { id: 'p-tim', label: 'Tim' },
 ]
 

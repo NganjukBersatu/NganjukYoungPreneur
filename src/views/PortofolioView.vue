@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { projects } from '../data/projects'
+import { delay } from '../utils/delay'
+import { slugify } from '../utils/slug'
 import CtaBand from '../components/CtaBand.vue'
 import PageHero from '../components/PageHero.vue'
-import ProjectCard from '../components/ProjectCard.vue'
 import fomoLogo from '../assets/fomo-logo.png'
 
 const tags = computed(() => ['Semua', ...new Set(projects.flatMap((p) => p.tags))])
@@ -13,31 +14,6 @@ const visible = (tagList: string[]) => active.value === 'Semua' || tagList.inclu
 const count = (t: string) =>
   t === 'Semua' ? projects.length : projects.filter((p) => p.tags.includes(t)).length
 const total = computed(() => projects.filter((p) => visible(p.tags)).length)
-
-const track = ref<HTMLElement | null>(null)
-
-const slide = (dir: number) => {
-  const el = track.value
-  if (!el) return
-  el.scrollBy({ left: dir * (el.clientWidth + 12), behavior: 'smooth' })
-}
-
-let io: IntersectionObserver | null = null
-
-onMounted(() => {
-  const el = track.value
-  if (!el) return
-  io = new IntersectionObserver(
-    (entries) =>
-      entries.forEach((e) => {
-        if (e.isIntersecting) e.target.classList.add('pf-in')
-      }),
-    { root: el, threshold: 0.35 },
-  )
-  Array.from(el.children).forEach((c) => io!.observe(c))
-})
-
-onBeforeUnmount(() => io?.disconnect())
 
 // Poin singkat FOMO, sesuaikan dengan fitur yang benar-benar ada
 const fomoPoints = ['Catat pesanan dengan cepat', 'Total dan pembayaran otomatis', 'Laporan penjualan harian']
@@ -52,7 +28,7 @@ const fomoPoints = ['Catat pesanan dengan cepat', 'Total dan pembayaran otomatis
       <div class="w">
         <div class="pf-feat rv" v-reveal>
           <div class="pf-feat-logo">
-            <img :src="fomoLogo" alt="Logo FOMO" />
+            <img loading="lazy" decoding="async" :src="fomoLogo" alt="Logo FOMO" />
           </div>
           <div class="pf-feat-body">
             <span class="pf-badge">Proyek unggulan</span>
@@ -98,27 +74,28 @@ const fomoPoints = ['Catat pesanan dengan cepat', 'Total dan pembayaran otomatis
           </button>
         </div>
 
-        <div class="pf-slider">
-  <div ref="track" class="g3">
-    <ProjectCard
+        <div class="pfl-panel">
+  <div class="pfl-prod">
+    <a
       v-for="(p, i) in projects"
       v-show="visible(p.tags)"
       :key="p.name"
-      :project="p"
-      :index="i"
-    />
+      class="pfl-prod-card rv"
+      v-reveal
+      :style="delay(i)"
+      :href="'#portofolio/' + slugify(p.name)"
+    >
+      <span class="pfl-prod-thumb" :style="{ '--g1': p.from, '--g2': p.to }">
+        <img loading="lazy" decoding="async" v-if="p.logo" :src="p.logo" :alt="'Logo ' + p.name" />
+        <template v-else>{{ p.initial }}</template>
+      </span>
+      <span class="pfl-prod-info">
+        <b>{{ p.name }}</b>
+        <small>{{ p.tags.join(' · ') }}</small>
+      </span>
+      <span class="pfl-prod-btn" aria-hidden="true">Lihat</span>
+    </a>
   </div>
-
-  <button class="pf-arrow pf-prev" type="button" aria-label="Proyek sebelumnya" @click="slide(-1)">
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M15 6l-6 6 6 6" />
-    </svg>
-  </button>
-  <button class="pf-arrow pf-next" type="button" aria-label="Proyek berikutnya" @click="slide(1)">
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M9 6l6 6-6 6" />
-    </svg>
-  </button>
 </div>
 
         <p v-if="total === 0" class="pf-empty">Belum ada proyek untuk kategori ini.</p>
@@ -134,17 +111,17 @@ const fomoPoints = ['Catat pesanan dengan cepat', 'Total dan pembayaran otomatis
 .pf-feat {
   display: grid;
   grid-template-columns: 340px 1fr;
-  border-radius: 28px;
+  border-radius: 12px;
   overflow: hidden;
   background: #fff;
   border: 1px solid rgba(29, 63, 214, 0.12);
-  box-shadow: 0 24px 60px rgba(8, 15, 51, 0.1);
+  box-shadow: var(--sh-1);
 }
 .pf-feat-logo {
   display: grid;
   place-items: center;
-  padding: 36px;
-  background: linear-gradient(135deg, #123f2f, #23624a);
+  padding: 40px;
+  background: #123f2f;
 }
 .pf-feat-logo img {
   width: 100%;
@@ -153,22 +130,22 @@ const fomoPoints = ['Catat pesanan dengan cepat', 'Total dan pembayaran otomatis
   object-fit: contain;
 }
 .pf-feat-body {
-  padding: 36px 40px;
+  padding: 40px 40px;
 }
 .pf-badge {
   display: inline-block;
   margin-bottom: 12px;
-  padding: 5px 14px;
+  padding: 6px 16px;
   border-radius: 999px;
   background: #e6f4ec;
   color: #1c5a41;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 .pf-feat-body h2 {
-  margin: 0 0 10px;
+  margin: 0 0 12px;
 }
 .pf-feat-body p {
   margin: 0 0 16px;
@@ -185,7 +162,7 @@ const fomoPoints = ['Catat pesanan dengan cepat', 'Total dan pembayaran otomatis
 .pf-points li {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   font-size: 15px;
   font-weight: 600;
 }
@@ -218,7 +195,7 @@ const fomoPoints = ['Catat pesanan dengan cepat', 'Total dan pembayaran otomatis
   align-items: baseline;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 .pf-head h2 {
   margin: 0;
@@ -232,12 +209,31 @@ const fomoPoints = ['Catat pesanan dengan cepat', 'Total dan pembayaran otomatis
   opacity: 0.7;
   font-size: 0.85em;
 }
+.flt {
+  margin-bottom: 24px;
+}
+
+@media (max-width: 560px) {
+  /* kapsul satu baris, bisa digeser ke samping */
+  .flt {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-inline: -20px;
+    padding: 0 20px 4px;
+  }
+  .flt::-webkit-scrollbar { display: none; }
+  .flt button {
+    flex: none;
+    white-space: nowrap;
+  }
+}
 
 .pf-empty {
   margin-top: 32px;
-  padding: 28px;
+  padding: 32px;
   text-align: center;
-  border-radius: 18px;
+  border-radius: 8px;
   border: 1px dashed rgba(29, 63, 214, 0.3);
   color: #4a5270;
 }
@@ -255,13 +251,13 @@ const fomoPoints = ['Catat pesanan dengan cepat', 'Total dan pembayaran otomatis
     grid-template-columns: 1fr;
   }
   .pf-feat-logo {
-    padding: 28px;
+    padding: 32px;
   }
   .pf-feat-logo img {
     max-width: 180px;
   }
   .pf-feat-body {
-    padding: 24px 22px 28px;
+    padding: 24px 24px 32px;
   }
 }
 
@@ -285,7 +281,7 @@ const fomoPoints = ['Catat pesanan dengan cepat', 'Total dan pembayaran otomatis
     /* efek naik dari bawah */
     opacity: 0;
     transform: translateY(28px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transition: opacity 400ms ease, transform 400ms ease;
   }
   .pf-slider .g3 > .pf-in {
     opacity: 1;
@@ -305,7 +301,7 @@ const fomoPoints = ['Catat pesanan dengan cepat', 'Total dan pembayaran otomatis
     border-radius: 50%;
     background: #fff;
     color: #1d3fd6;
-    box-shadow: 0 6px 16px rgba(8, 15, 51, 0.25);
+    box-shadow: var(--sh-1);
     cursor: pointer;
   }
   .pf-arrow:active {
@@ -329,5 +325,111 @@ const fomoPoints = ['Catat pesanan dengan cepat', 'Total dan pembayaran otomatis
     width: 100%;
   }
 }
-
+.pfl-panel {
+  position: relative;
+  overflow: hidden;
+  padding: 32px;
+  border-radius: 12px;
+  color: #fff;
+  background: #080f33;
+  box-shadow: var(--sh-1);
+}
+.pfl-panel::before {
+  content: '';
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  right: -110px;
+  top: -150px;
+  border-radius: 50%;
+  background: none;
+  pointer-events: none;
+}
+.pfl-prod {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 16px;
+}
+.pfl-prod-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 16px 16px 16px;
+  border-radius: 8px;
+  background: #fff;
+  color: #080f33;
+  text-decoration: none;
+  box-shadow: var(--sh-1);
+  transition: transform 150ms, box-shadow 150ms;
+}
+.pfl-prod-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sh-2);
+}
+.pfl-prod-thumb {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  border-radius: 8px;
+  background: var(--g1);
+  color: #fff;
+  font-size: 28px;
+  font-weight: 700;
+  overflow: hidden;
+}
+.pfl-prod-thumb img {
+  width: 78%;
+  height: 78%;
+  object-fit: contain;
+}
+.pfl-prod-info {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+.pfl-prod-info b {
+  font-size: 17px;
+}
+.pfl-prod-info small {
+  font-size: 13px;
+  color: #4a5270;
+}
+.pfl-prod-btn {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 6px;
+  background: #eef3ff;
+  border: 1px solid rgba(29, 63, 214, 0.25);
+  color: #1d3fd6;
+  font-size: 13px;
+  font-weight: 700;
+  transition: background 150ms, color 150ms;
+}
+.pfl-prod-card:hover .pfl-prod-btn {
+  background: #1d3fd6;
+  border-color: #1d3fd6;
+  color: #fff;
+}
+@media (max-width: 560px) {
+  .pfl-panel {
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+  .pfl-prod {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .pfl-prod-thumb {
+    width: 58px;
+    height: 58px;
+    border-radius: 8px;
+  }
+}
 </style>

@@ -54,7 +54,7 @@ const faqs = [
             <li v-for="(item, i) in main.items" :key="item" class="svl-item">
               <span class="svi"><AppIcon :name="serviceItemIcons[i]" /></span>
               <b>{{ item }}</b>
-              <span class="svl-go" aria-hidden="true">Lihat detail &rarr;</span>
+              <span class="svl-go" aria-hidden="true">Lihat detail</span>
               <!-- Link ini menutupi seluruh kartu, jadi seluruh kartu bisa diklik -->
               <a class="svl-a" :href="'#layanan/' + slugify(item)" :aria-label="'Lihat detail ' + item"></a>
             </li>
@@ -99,7 +99,7 @@ const faqs = [
   border-radius: inherit;
 }
 .svl-a:focus-visible {
-  outline: 3px solid rgba(29, 63, 214, 0.4);
+  outline: 2px solid #1d3fd6;
   outline-offset: 2px;
 }
 .svl-go {
@@ -109,21 +109,7 @@ const faqs = [
   font-size: 12px;
   font-weight: 700;
   color: #1d3fd6;
-  opacity: 0;
-  transform: translateX(-4px);
-  transition: opacity 0.2s, transform 0.2s;
   pointer-events: none;
-}
-.svl-item:hover .svl-go,
-.svl-item:focus-within .svl-go {
-  opacity: 1;
-  transform: none;
-}
-@media (hover: none) {
-  .svl-go {
-    opacity: 1;
-    transform: none;
-  }
 }
 
 @media (max-width: 900px) {
@@ -140,7 +126,7 @@ const faqs = [
     position: static;      /* ikut alur layout, tidak melayang */
     flex: none;            /* tidak boleh menyusut */
     white-space: nowrap;   /* tidak pecah jadi dua baris */
-    font-size: 11px;
+    font-size: 12px;
   }
 }
 </style>
