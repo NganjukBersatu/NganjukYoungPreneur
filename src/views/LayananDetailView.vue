@@ -127,15 +127,7 @@ const related = computed(() =>
       <!-- HERO -->
       <section class="svd-top">
         <div class="w">
-          <a class="svd-back" href="#layanan">
-            <span class="svd-back-ic" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 12H5" />
-                <path d="M11 6l-6 6 6 6" />
-              </svg>
-            </span>
-            <span>Kembali ke Layanan</span>
-          </a>
+          <a class="svd-back" href="#layanan">Kembali ke Layanan</a>
 
           <div class="svd-hero">
             <div class="svd-hero-text">
@@ -204,14 +196,14 @@ const related = computed(() =>
                     :href="'#portofolio/' + slugify(p.name)"
                   >
                     <span class="svd-rel-thumb" :style="{ '--g1': p.from, '--g2': p.to }">
-                      <img v-if="p.logo" :src="p.logo" :alt="'Logo ' + p.name" />
+                      <img loading="lazy" decoding="async" v-if="p.logo" :src="p.logo" :alt="'Logo ' + p.name" />
                       <template v-else>{{ p.initial }}</template>
                     </span>
                     <span class="svd-rel-info">
                       <b>{{ p.name }}</b>
                       <small>{{ p.tags.join(' · ') }}</small>
                     </span>
-                    <span class="svd-rel-arr" aria-hidden="true">&rarr;</span>
+                    <span class="svd-rel-arr" aria-hidden="true">Lihat</span>
                   </a>
                 </div>
               </template>
@@ -249,7 +241,7 @@ const related = computed(() =>
                 <small>Layanan berikutnya</small>
                 <b>{{ next.name }}</b>
               </span>
-              <span class="svd-next-arr" aria-hidden="true">&rarr;</span>
+              <span class="svd-next-arr" aria-hidden="true">Lihat layanan</span>
             </a>
           </div>
         </section>
@@ -258,15 +250,7 @@ const related = computed(() =>
 
     <section v-else class="svd-top">
       <div class="w">
-        <a class="svd-back" href="#layanan">
-          <span class="svd-back-ic" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M19 12H5" />
-              <path d="M11 6l-6 6 6 6" />
-            </svg>
-          </span>
-          <span>Kembali ke Layanan</span>
-        </a>
+        <a class="svd-back" href="#layanan">Kembali ke Layanan</a>
         <h2>Layanan tidak ditemukan</h2>
         <p>Layanan yang kamu cari tidak ada atau sudah dipindahkan.</p>
       </div>
@@ -279,42 +263,26 @@ const related = computed(() =>
 <style scoped>
 /* ---------- Tombol kembali ---------- */
 .svd-top {
-  padding-top: 130px;
+  padding-top: 48px;
 }
 .svd-back {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 22px;
-  padding: 6px 20px 6px 6px;
-  border-radius: 999px;
+  height: 40px;
+  margin-bottom: 24px;
+  padding: 0 16px;
+  border-radius: 6px;
   background: #fff;
-  border: 1px solid rgba(29, 63, 214, 0.18);
-  box-shadow: 0 4px 14px rgba(8, 15, 51, 0.06);
-  color: #1d3fd6;
-  font-weight: 700;
-  font-size: 15px;
+  border: 1px solid #64748b;
+  color: #080f33;
+  font-weight: 600;
+  font-size: 14px;
   text-decoration: none;
-  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-}
-.svd-back-ic {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #eef3ff;
-  transition: background 0.2s, color 0.2s, transform 0.2s;
+  transition: border-color 150ms, background 150ms;
 }
 .svd-back:hover {
-  border-color: #1d3fd6;
-  box-shadow: 0 10px 24px rgba(29, 63, 214, 0.18);
-  transform: translateY(-1px);
-}
-.svd-back:hover .svd-back-ic {
-  background: #1d3fd6;
-  color: #fff;
-  transform: translateX(-3px);
+  border-color: #080f33;
+  background: #eef4ff;
 }
 
 /* ---------- Hero ---------- */
@@ -324,12 +292,12 @@ const related = computed(() =>
   grid-template-columns: 1.4fr 1fr;
   align-items: center;
   gap: 32px;
-  padding: 52px 56px;
-  border-radius: 32px;
+  padding: 48px 64px;
+  border-radius: 12px;
   overflow: hidden;
   color: #fff;
-  background: linear-gradient(135deg, #080f33, #1d3fd6);
-  box-shadow: 0 28px 70px rgba(29, 63, 214, 0.25);
+  background: #080f33;
+  box-shadow: var(--sh-1);
 }
 .svd-hero::before {
   content: '';
@@ -339,7 +307,7 @@ const related = computed(() =>
   right: -90px;
   top: -140px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(20, 177, 245, 0.4), transparent 65%);
+  background: none;
   pointer-events: none;
 }
 .svd-hero-text,
@@ -348,19 +316,19 @@ const related = computed(() =>
   z-index: 1;
 }
 .svd-crumb {
-  margin: 0 0 14px;
+  margin: 0 0 16px;
   font-size: 13px;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.7);
 }
 .svd-hero h1 {
-  margin: 0 0 14px;
+  margin: 0 0 16px;
   font-size: clamp(30px, 4.2vw, 46px);
   line-height: 1.1;
   color: #fff;
 }
 .svd-lead {
-  margin: 0 0 28px;
+  margin: 0 0 32px;
   max-width: 520px;
   font-size: 17px;
   line-height: 1.7;
@@ -376,17 +344,17 @@ const related = computed(() =>
 .svd-btn-ghost {
   display: inline-flex;
   align-items: center;
-  padding: 13px 24px;
-  border-radius: 999px;
+  padding: 12px 24px;
+  border-radius: 6px;
   font-weight: 700;
   font-size: 15px;
   text-decoration: none;
-  transition: transform 0.2s, background 0.2s;
+  transition: transform 150ms, background 150ms;
 }
 .svd-btn-light {
   background: #fff;
   color: #1d3fd6;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--sh-1);
 }
 .svd-btn-light:hover {
   transform: translateY(-2px);
@@ -407,7 +375,7 @@ const related = computed(() =>
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.22);
-  box-shadow: 0 0 0 16px rgba(255, 255, 255, 0.06);
+  box-shadow: none;
   color: #fff;
 }
 .svd-hero-ic :deep(svg) {
@@ -419,11 +387,11 @@ const related = computed(() =>
 .svd-tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 22px;
+  gap: 12px;
+  margin-top: 24px;
 }
 .svd-tabs a {
-  padding: 10px 18px;
+  padding: 12px 20px;
   border-radius: 999px;
   background: #fff;
   border: 1px solid rgba(29, 63, 214, 0.18);
@@ -431,7 +399,7 @@ const related = computed(() =>
   font-size: 14px;
   font-weight: 700;
   text-decoration: none;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  transition: background 150ms, color 150ms, border-color 150ms;
 }
 .svd-tabs a:hover {
   border-color: #1d3fd6;
@@ -454,13 +422,13 @@ const related = computed(() =>
   align-items: start;
 }
 .svd-content h2 {
-  margin: 0 0 14px;
+  margin: 0 0 16px;
 }
 .svd-gap {
-  margin-top: 44px !important;
+  margin-top: 48px !important;
 }
 .svd-p {
-  margin: 0 0 14px;
+  margin: 0 0 16px;
   line-height: 1.8;
   color: #4a5270;
 }
@@ -475,19 +443,19 @@ const related = computed(() =>
 }
 .svd-inc li {
   display: flex;
-  gap: 14px;
+  gap: 16px;
   align-items: flex-start;
   padding: 20px;
-  border-radius: 20px;
+  border-radius: 8px;
   background: #fff;
   border: 1px solid rgba(29, 63, 214, 0.12);
-  box-shadow: 0 2px 10px rgba(8, 15, 51, 0.04);
-  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  box-shadow: var(--sh-1);
+  transition: transform 150ms, border-color 150ms, box-shadow 150ms;
 }
 .svd-inc li:hover {
   transform: translateY(-3px);
   border-color: rgba(29, 63, 214, 0.35);
-  box-shadow: 0 16px 34px rgba(29, 63, 214, 0.12);
+  box-shadow: var(--sh-2);
 }
 .svd-num {
   flex: none;
@@ -499,12 +467,12 @@ const related = computed(() =>
   background: #eef3ff;
   color: #1d3fd6;
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 700;
 }
 .svd-inc b,
 .svd-steps b {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
   font-size: 16px;
 }
 .svd-inc p,
@@ -526,7 +494,7 @@ const related = computed(() =>
   position: relative;
   display: flex;
   gap: 16px;
-  padding-bottom: 22px;
+  padding-bottom: 24px;
 }
 .svd-steps li:not(:last-child)::before {
   content: '';
@@ -547,32 +515,32 @@ const related = computed(() =>
   background: #1d3fd6;
   color: #fff;
   font-size: 14px;
-  font-weight: 800;
-  box-shadow: 0 0 0 5px #eef3ff;
+  font-weight: 700;
+  box-shadow: none;
 }
 
 /* Proyek terkait */
 .svd-rel {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 14px;
+  gap: 16px;
 }
 .svd-rel-card {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   padding: 12px 16px 12px 12px;
-  border-radius: 18px;
+  border-radius: 8px;
   background: #fff;
   border: 1px solid rgba(29, 63, 214, 0.12);
   color: inherit;
   text-decoration: none;
-  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  transition: transform 150ms, border-color 150ms, box-shadow 150ms;
 }
 .svd-rel-card:hover {
   transform: translateY(-3px);
   border-color: rgba(29, 63, 214, 0.35);
-  box-shadow: 0 16px 34px rgba(29, 63, 214, 0.12);
+  box-shadow: var(--sh-2);
 }
 .svd-rel-thumb {
   flex: none;
@@ -580,11 +548,11 @@ const related = computed(() =>
   place-items: center;
   width: 56px;
   height: 56px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, var(--g1), var(--g2));
+  border-radius: 8px;
+  background: var(--g1);
   color: #fff;
   font-size: 22px;
-  font-weight: 800;
+  font-weight: 700;
   overflow: hidden;
 }
 .svd-rel-thumb img {
@@ -601,32 +569,29 @@ const related = computed(() =>
   color: #4a5270;
 }
 .svd-rel-arr {
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
   color: #1d3fd6;
-  transition: transform 0.2s;
-}
-.svd-rel-card:hover .svd-rel-arr {
-  transform: translateX(4px);
 }
 
 /* ---------- Kartu samping ---------- */
 .svd-side {
   position: sticky;
-  top: 120px;
+  top: 80px;
 }
 .svd-card {
-  padding: 26px;
-  border-radius: 24px;
+  padding: 24px;
+  border-radius: 8px;
   background: #fff;
   border: 1px solid rgba(29, 63, 214, 0.14);
-  box-shadow: 0 20px 50px rgba(8, 15, 51, 0.1);
+  box-shadow: var(--sh-1);
 }
 .svd-card h3 {
   margin: 0 0 12px;
   font-size: 16px;
 }
 .svd-card h3:not(:first-child) {
-  margin-top: 22px;
+  margin-top: 24px;
 }
 .svd-chips {
   display: flex;
@@ -634,7 +599,7 @@ const related = computed(() =>
   gap: 8px;
 }
 .svd-chip {
-  padding: 6px 14px;
+  padding: 6px 16px;
   border-radius: 999px;
   background: #eef3ff;
   color: #1d3fd6;
@@ -650,7 +615,7 @@ const related = computed(() =>
 }
 .svd-list li {
   position: relative;
-  padding-left: 18px;
+  padding-left: 20px;
   font-size: 14px;
   line-height: 1.6;
   color: #4a5270;
@@ -684,20 +649,20 @@ const related = computed(() =>
 
 /* ---------- Layanan berikutnya ---------- */
 .svd-next {
-  padding: 32px 0 72px;
+  padding: 32px 0 80px;
 }
 .svd-next-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 24px 30px;
-  border-radius: 24px;
+  padding: 24px 32px;
+  border-radius: 8px;
   background: #eef3ff;
   border: 1px dashed rgba(29, 63, 214, 0.35);
   color: inherit;
   text-decoration: none;
-  transition: transform 0.2s, background 0.2s;
+  transition: transform 150ms, background 150ms;
 }
 .svd-next-card:hover {
   transform: translateY(-3px);
@@ -707,7 +672,7 @@ const related = computed(() =>
   display: block;
   margin-bottom: 4px;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: #4a5270;
@@ -716,20 +681,16 @@ const related = computed(() =>
   font-size: 20px;
 }
 .svd-next-arr {
-  font-size: 26px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
   color: #1d3fd6;
-  transition: transform 0.2s;
-}
-.svd-next-card:hover .svd-next-arr {
-  transform: translateX(6px);
 }
 
 /* ---------- Responsif ---------- */
 @media (max-width: 900px) {
   .svd-hero {
     grid-template-columns: 1fr;
-    padding: 36px 28px;
+    padding: 40px 32px;
   }
   .svd-hero-ic {
     order: -1;
@@ -749,11 +710,11 @@ const related = computed(() =>
 }
 @media (max-width: 560px) {
   .svd-top {
-    padding-top: 110px;
+    padding-top: 80px;
   }
   .svd-hero {
-    padding: 28px 20px;
-    border-radius: 24px;
+    padding: 32px 20px;
+    border-radius: 8px;
   }
   .svd-inc {
     grid-template-columns: 1fr;

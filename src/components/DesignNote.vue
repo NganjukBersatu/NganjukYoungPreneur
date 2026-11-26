@@ -4,7 +4,9 @@ const show = ref(true)
 </script>
 
 <template>
-  <div v-if="show" class="note" @click="show = false">
-    Pratinjau desain. Alamat, surel, telepon, dan media sosial masih data contoh; akan diganti data asli. Klik untuk menutup.
+  <!-- Catatan pratinjau berada di alur halaman (bukan melayang), supaya tidak menutupi tombol atau isi -->
+  <div v-if="show" class="note" role="status">
+    <p>Pratinjau desain. Tautan Instagram masih perkiraan dan akan disesuaikan dengan akun asli.</p>
+    <button type="button" class="note-x" @click="show = false">Tutup</button>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { contactNeeds } from '../data/content'
-import AppIcon from './AppIcon.vue'
+import { whatsappLink } from '../data/site'
 
 type Field = 'nama' | 'surel' | 'pesan'
 
@@ -14,9 +14,9 @@ const surel = ref<HTMLInputElement | null>(null)
 const pesan = ref<HTMLTextAreaElement | null>(null)
 
 const messages: Record<Field, string> = {
-  nama: 'Isi nama Anda.',
+  nama: 'Isi nama Anda agar kami tahu siapa yang dihubungi.',
   surel: 'Isi surel dengan format nama@contoh.com.',
-  pesan: 'Tulis pesan Anda.',
+  pesan: 'Tulis pesan Anda, misalnya tujuan dan target waktu proyek.',
 }
 
 const toggle = (n: string) => {
@@ -35,7 +35,21 @@ function submit() {
     sent.value = false
     refs[firstBad]?.focus()
   } else {
-    // TODO: kirim data ke backend/API di sini
+    // Pesan disiapkan lalu dibuka di WhatsApp (0851 1996 6640)
+    const text = [
+      'Halo Nganjuk Digital Preneur, saya ingin berdiskusi.',
+      '',
+      `Nama: ${form.nama.trim()}`,
+      `Surel: ${form.surel.trim()}`,
+      picked.value.length ? `Kebutuhan: ${picked.value.join(', ')}` : '',
+      '',
+      form.pesan.trim(),
+    ]
+      .filter((l, i, a) => l !== '' || (a[i - 1] !== '' && i > 0))
+      .join('\n')
+    const w = window.open(whatsappLink(text), '_blank')
+    if (w) w.opener = null
+    else location.href = whatsappLink(text)
     form.nama = form.surel = form.pesan = ''
     picked.value = []
     sent.value = true
@@ -53,21 +67,21 @@ function submit() {
     <div class="row">
       <div class="f">
         <label for="nama">Nama</label>
-        <input id="nama" ref="nama" v-model="form.nama" type="text" autocomplete="name" placeholder="Nama lengkap" required :aria-invalid="!!errors.nama" />
-        <p class="err" role="alert">{{ errors.nama }}</p>
+        <input id="nama" ref="nama" v-model="form.nama" type="text" autocomplete="name" placeholder="Contoh: Budi Santoso" required :aria-invalid="!!errors.nama" aria-describedby="err-nama" />
+        <p id="err-nama" class="err" role="alert">{{ errors.nama }}</p>
       </div>
       <div class="f">
         <label for="surel">Surel</label>
-        <input id="surel" ref="surel" v-model="form.surel" type="email" autocomplete="email" placeholder="nama@contoh.com" required :aria-invalid="!!errors.surel" />
-        <p class="err" role="alert">{{ errors.surel }}</p>
+        <input id="surel" ref="surel" v-model="form.surel" type="email" autocomplete="email" placeholder="Contoh: nama@contoh.com" required :aria-invalid="!!errors.surel" aria-describedby="err-surel" />
+        <p id="err-surel" class="err" role="alert">{{ errors.surel }}</p>
       </div>
     </div>
     <div class="f">
       <label for="pesan">Pesan</label>
-      <textarea id="pesan" ref="pesan" v-model="form.pesan" placeholder="Ceritakan tujuan, pengguna, dan target waktu proyek Anda" required :aria-invalid="!!errors.pesan"></textarea>
-      <p class="err" role="alert">{{ errors.pesan }}</p>
+      <textarea id="pesan" ref="pesan" v-model="form.pesan" placeholder="Contoh: aplikasi kasir untuk 3 cabang, target selesai 2 bulan" required :aria-invalid="!!errors.pesan" aria-describedby="err-pesan"></textarea>
+      <p id="err-pesan" class="err" role="alert">{{ errors.pesan }}</p>
     </div>
-    <button class="btn bp" type="submit">Kirim pesan <AppIcon name="arr" /></button>
-    <p id="ok" role="status" :hidden="!sent">Pesan terkirim. Kami akan membalas lewat surel.</p>
+    <button class="btn bp" type="submit">Kirim pesan</button>
+    <p id="ok" role="status" :hidden="!sent">Pesan Anda sudah disiapkan di WhatsApp. Tekan kirim di sana untuk melanjutkan.</p>
   </form>
 </template>

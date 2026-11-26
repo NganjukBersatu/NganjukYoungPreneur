@@ -112,7 +112,7 @@ import fomoLogo from '../assets/fomo-logo.png'
     <section class="sec">
       <div class="w">
         <div class="feat rv" v-reveal>
-          <img :src="fomoLogo" alt="Logo FOMO" />
+          <img loading="lazy" decoding="async" :src="fomoLogo" alt="Logo FOMO" />
           <div>
             <h2>Aturan logo FOMO</h2>
             <p>Logo bulat berwarna hijau tua dan putih. Taruh di atas latar putih atau hijau gelap (#123F2F).</p>

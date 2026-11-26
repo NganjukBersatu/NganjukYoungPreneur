@@ -63,9 +63,13 @@ const stats = [
     <!-- PRODUK KAMI -->
     <section class="sec pfl-prod-sec">
       <div class="w">
+       <div class="pfl-panel">
         <div class="pfl-head rv" v-reveal>
-          <h2>Produk kami</h2>
-          <a class="pfl-all" href="#portofolio">Lihat semua portofolio <span aria-hidden="true">&rarr;</span></a>
+          <div>
+            <span class="pfl-panel-eyebrow">Hasil kerja kami</span>
+            <h2>Produk kami</h2>
+          </div>
+          <a class="pfl-all" href="#portofolio">Lihat semua portofolio</a>
         </div>
         <div class="pfl-prod">
           <a
@@ -77,16 +81,17 @@ const stats = [
             :href="'#portofolio/' + slugify(p.name)"
           >
             <span class="pfl-prod-thumb" :style="{ '--g1': p.from, '--g2': p.to }">
-              <img v-if="p.logo" :src="p.logo" :alt="'Logo ' + p.name" />
+              <img loading="lazy" decoding="async" v-if="p.logo" :src="p.logo" :alt="'Logo ' + p.name" />
               <template v-else>{{ p.initial }}</template>
             </span>
             <span class="pfl-prod-info">
               <b>{{ p.name }}</b>
               <small>{{ p.tags.join(' · ') }}</small>
             </span>
-            <span class="pfl-prod-arr" aria-hidden="true">&rarr;</span>
+            <span class="pfl-prod-btn" aria-hidden="true">Lihat</span>
           </a>
         </div>
+       </div>
       </div>
     </section>
 
@@ -173,22 +178,22 @@ const stats = [
 .pfl-badge {
   display: inline-block;
   margin-bottom: 12px;
-  padding: 5px 14px;
+  padding: 6px 16px;
   border-radius: 999px;
   background: #eef3ff;
   color: #1d3fd6;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 .pfl-title {
   max-width: 640px;
-  margin: 0 auto 36px;
+  margin: 0 auto 40px;
   text-align: center;
 }
 .pfl-title h2 {
-  margin: 0 0 10px;
+  margin: 0 0 12px;
 }
 .pfl-title p {
   margin: 0;
@@ -204,10 +209,10 @@ const stats = [
   align-items: center;
 }
 .pfl-about h2 {
-  margin: 0 0 14px;
+  margin: 0 0 16px;
 }
 .pfl-text {
-  margin: 0 0 26px;
+  margin: 0 0 24px;
   font-size: 17px;
   line-height: 1.8;
   color: #4a5270;
@@ -218,14 +223,14 @@ const stats = [
   padding: 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+  gap: 16px;
 }
 .pfl-stats li {
-  padding: 16px 18px;
-  border-radius: 18px;
+  padding: 16px 20px;
+  border-radius: 8px;
   background: #fff;
   border: 1px solid rgba(29, 63, 214, 0.12);
-  box-shadow: 0 2px 10px rgba(8, 15, 51, 0.04);
+  box-shadow: var(--sh-1);
 }
 .pfl-stats strong {
   display: block;
@@ -243,11 +248,11 @@ const stats = [
   position: relative;
   overflow: hidden;
   padding: 40px 32px;
-  border-radius: 28px;
+  border-radius: 12px;
   text-align: center;
   color: #fff;
-  background: linear-gradient(135deg, #080f33, #1d3fd6);
-  box-shadow: 0 28px 70px rgba(29, 63, 214, 0.25);
+  background: #080f33;
+  box-shadow: var(--sh-1);
 }
 .pfl-brand::before {
   content: '';
@@ -257,7 +262,7 @@ const stats = [
   right: -100px;
   top: -130px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(20, 177, 245, 0.4), transparent 65%);
+  background: none;
   pointer-events: none;
 }
 .pfl-brand > * {
@@ -268,11 +273,11 @@ const stats = [
   place-items: center;
   width: 96px;
   height: 96px;
-  margin: 0 auto 18px;
+  margin: 0 auto 20px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.06);
+  box-shadow: none;
 }
 .pfl-brand b {
   display: block;
@@ -299,7 +304,7 @@ const stats = [
   font-size: 13px;
   font-weight: 700;
   text-decoration: none;
-  transition: background 0.2s, color 0.2s;
+  transition: background 150ms, color 150ms;
 }
 .pfl-brand-pills a:hover {
   background: #fff;
@@ -310,88 +315,169 @@ const stats = [
 .pfl-prod-sec {
   padding-top: 0;
 }
+.pfl-panel {
+  position: relative;
+  overflow: hidden;
+  padding: 40px 40px 48px;
+  border-radius: 12px;
+  color: #fff;
+  background: #080f33;
+  box-shadow: var(--sh-1);
+}
+.pfl-panel::before {
+  content: '';
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  right: -110px;
+  top: -150px;
+  border-radius: 50%;
+  background: none;
+  pointer-events: none;
+}
+.pfl-panel > * {
+  position: relative;
+}
 .pfl-head {
   display: flex;
-  align-items: baseline;
+  align-items: flex-end;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 18px;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 .pfl-head h2 {
   margin: 0;
+  color: #fff;
+}
+.pfl-panel-eyebrow {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 .pfl-all {
+  display: inline-flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 6px;
+  background: var(--ac, #14b1f5);
+  color: #080f33;
   font-weight: 700;
-  color: #1d3fd6;
   text-decoration: none;
+  box-shadow: var(--sh-1);
+  transition: transform 150ms, background 150ms;
 }
-.pfl-all span {
-  display: inline-block;
-  transition: transform 0.2s;
-}
-.pfl-all:hover span {
-  transform: translateX(4px);
+.pfl-all:hover {
+  transform: translateY(-2px);
+  background: #5ccbff;
 }
 .pfl-prod {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   gap: 16px;
 }
 .pfl-prod-card {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 14px 18px 14px 14px;
-  border-radius: 20px;
+  padding: 16px 16px 16px 16px;
+  border-radius: 8px;
   background: #fff;
-  border: 1px solid rgba(29, 63, 214, 0.12);
-  color: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  color: #080f33;
   text-decoration: none;
-  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  box-shadow: var(--sh-1);
+  transition: transform 150ms, box-shadow 150ms;
 }
 .pfl-prod-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(29, 63, 214, 0.35);
-  box-shadow: 0 16px 34px rgba(29, 63, 214, 0.12);
+  transform: translateY(-4px);
+  box-shadow: var(--sh-2);
 }
 .pfl-prod-thumb {
   flex: none;
   display: grid;
   place-items: center;
-  width: 64px;
-  height: 64px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, var(--g1), var(--g2));
+  width: 68px;
+  height: 68px;
+  border-radius: 8px;
+  background: var(--g1);
   color: #fff;
-  font-size: 26px;
-  font-weight: 800;
+  font-size: 28px;
+  font-weight: 700;
   overflow: hidden;
 }
 .pfl-prod-thumb img {
-  width: 80%;
-  height: auto;
+  width: 78%;
+  height: 78%;
+  object-fit: contain;
 }
 .pfl-prod-info {
   flex: 1;
+  min-width: 0;
   display: grid;
   gap: 2px;
 }
 .pfl-prod-info b {
-  font-size: 16px;
+  font-size: 17px;
 }
 .pfl-prod-info small {
   font-size: 13px;
   color: #4a5270;
 }
-.pfl-prod-arr {
-  font-size: 20px;
-  font-weight: 700;
+.pfl-prod-btn {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 6px;
+  background: #eef3ff;
+  border: 1px solid rgba(29, 63, 214, 0.25);
   color: #1d3fd6;
-  transition: transform 0.2s;
+  font-size: 13px;
+  font-weight: 700;
+  transition: background 150ms, color 150ms;
 }
-.pfl-prod-card:hover .pfl-prod-arr {
-  transform: translateX(4px);
+.pfl-prod-card:hover .pfl-prod-btn {
+  background: #1d3fd6;
+  border-color: #1d3fd6;
+  color: #fff;
+}
+@media (max-width: 560px) {
+  .pfl-panel {
+    padding: 24px 16px 24px;
+    border-radius: 12px;
+  }
+  .pfl-head {
+    align-items: stretch;     
+    flex-direction: column;
+    gap: 20px;              
+    margin-bottom: 20px;
+  }
+  .pfl-all {
+    justify-content: center;  
+    width: 100%;      
+    height: 48px;
+    padding: 0 16px;
+    font-size: 15px;
+  }
+  .pfl-prod {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .pfl-prod-thumb {
+    width: 58px;
+    height: 58px;
+    border-radius: 8px;
+  }
 }
 
 /* ---------- Visi & misi ---------- */
@@ -399,10 +485,10 @@ const stats = [
   display: grid;
   grid-template-columns: 1fr 1.1fr;
   overflow: hidden;
-  border-radius: 32px;
+  border-radius: 12px;
   background: #fff;
   border: 1px solid rgba(29, 63, 214, 0.12);
-  box-shadow: 0 24px 60px rgba(8, 15, 51, 0.1);
+  box-shadow: var(--sh-1);
 }
 .pfl-vision {
   position: relative;
@@ -410,9 +496,9 @@ const stats = [
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 48px 44px;
+  padding: 48px 48px;
   color: #fff;
-  background: linear-gradient(135deg, #080f33, #1d3fd6);
+  background: #080f33;
 }
 .pfl-vision::before {
   content: '';
@@ -422,7 +508,7 @@ const stats = [
   left: -90px;
   bottom: -130px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(20, 177, 245, 0.35), transparent 65%);
+  background: none;
   pointer-events: none;
 }
 .pfl-vision > * {
@@ -441,14 +527,14 @@ const stats = [
   line-height: 1.35;
 }
 .pfl-mission {
-  padding: 48px 44px;
+  padding: 48px 48px;
 }
 .pfl-mission ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 14px;
+  gap: 16px;
 }
 .pfl-mission li {
   display: flex;
@@ -463,7 +549,7 @@ const stats = [
   place-items: center;
   width: 26px;
   height: 26px;
-  margin-top: 1px;
+  margin-top: 2px;
   border-radius: 50%;
   background: #1d3fd6;
   color: #fff;
@@ -479,17 +565,17 @@ const stats = [
   display: flex;
   gap: 16px;
   align-items: flex-start;
-  padding: 22px;
-  border-radius: 20px;
+  padding: 24px;
+  border-radius: 8px;
   background: #fff;
   border: 1px solid rgba(29, 63, 214, 0.12);
-  box-shadow: 0 2px 10px rgba(8, 15, 51, 0.04);
-  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  box-shadow: var(--sh-1);
+  transition: transform 150ms, border-color 150ms, box-shadow 150ms;
 }
 .pfl-val:hover {
   transform: translateY(-3px);
   border-color: rgba(29, 63, 214, 0.35);
-  box-shadow: 0 16px 34px rgba(29, 63, 214, 0.12);
+  box-shadow: var(--sh-2);
 }
 .pfl-num {
   flex: none;
@@ -501,11 +587,11 @@ const stats = [
   background: #eef3ff;
   color: #1d3fd6;
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 700;
 }
 .pfl-val b {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
   font-size: 17px;
 }
 .pfl-val p {
@@ -522,18 +608,18 @@ const stats = [
   gap: 20px;
 }
 .pfl-tcard {
-  padding: 30px 26px;
-  border-radius: 24px;
+  padding: 32px 24px;
+  border-radius: 8px;
   text-align: center;
   background: #fff;
   border: 1px solid rgba(29, 63, 214, 0.12);
-  box-shadow: 0 2px 10px rgba(8, 15, 51, 0.04);
-  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  box-shadow: var(--sh-1);
+  transition: transform 240ms, box-shadow 240ms, border-color 240ms;
 }
 .pfl-tcard:hover {
   transform: translateY(-5px);
   border-color: rgba(29, 63, 214, 0.35);
-  box-shadow: 0 22px 46px rgba(29, 63, 214, 0.14);
+  box-shadow: var(--sh-2);
 }
 .pfl-avatar {
   display: grid;
@@ -542,11 +628,11 @@ const stats = [
   height: 72px;
   margin: 0 auto 16px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #1d3fd6, #14b1f5);
+  background: #1d3fd6;
   color: #fff;
   font-size: 22px;
-  font-weight: 800;
-  box-shadow: 0 0 0 8px #eef3ff;
+  font-weight: 700;
+  box-shadow: none;
 }
 
 /* ---------- Responsif ---------- */
@@ -560,17 +646,17 @@ const stats = [
   }
   .pfl-vision,
   .pfl-mission {
-    padding: 34px 28px;
+    padding: 32px 32px;
   }
 
   /* tim: 3 kartu satu baris di tablet */
   .pfl-team {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
+    gap: 16px;
   }
   .pfl-tcard {
-    padding: 24px 14px 22px;
-    border-radius: 20px;
+    padding: 24px 16px 24px;
+    border-radius: 8px;
     min-width: 0;
   }
   .pfl-tcard h3 {
@@ -588,14 +674,14 @@ const stats = [
     grid-template-columns: 1fr;
   }
   .pfl-brand {
-    padding: 32px 22px;
+    padding: 32px 24px;
   }
   .pfl-vision,
   .pfl-mission {
-    padding: 28px 22px;
+    padding: 32px 24px;
   }
   .pfl-val {
-    padding: 18px;
+    padding: 20px;
   }
 
   /* ===== kartu tim: 3 kolom ===== */
@@ -604,27 +690,27 @@ const stats = [
     gap: 6px;
   }
   .pfl-tcard {
-    padding: 14px 3px 12px;
-    border-radius: 14px;
+    padding: 16px 4px 12px;
+    border-radius: 8px;
     min-width: 0;
     overflow: hidden;
   }
   .pfl-avatar {
     width: 44px;
     height: 44px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     font-size: 14px;
-    box-shadow: 0 0 0 5px #eef3ff;
+    box-shadow: none;
   }
   .pfl-tcard h3 {
-    font-size: 10px;
+    font-size: 12px;
     line-height: 1.3;
     margin-bottom: 4px;
     letter-spacing: -0.2px;
     overflow-wrap: normal;
   }
   .pfl-tcard p {
-    font-size: 11px;
+    font-size: 12px;
     line-height: 1.5;
     overflow-wrap: anywhere;
   }
@@ -633,14 +719,14 @@ const stats = [
 @media (min-width: 641px) and (max-width: 900px) {
   .pfl-values {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
+    gap: 16px;
   }
   .pfl-val {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
     align-items: center;
-    gap: 10px;
-    padding: 18px 14px;
+    gap: 12px;
+    padding: 20px 16px;
   }
   .pfl-val > div {
     display: contents;

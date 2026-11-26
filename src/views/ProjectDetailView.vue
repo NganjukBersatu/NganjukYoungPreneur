@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { projects } from '../data/projects'
-import { slug } from '../composables/useRoute'
+import { origin, slug } from '../composables/useRoute'
 import { slugify } from '../utils/slug'
 import CtaBand from '../components/CtaBand.vue'
 
@@ -152,11 +152,96 @@ const details: Record<string, Detail> = {
       cta: 'Konsultasikan kebutuhan Anda',
     },
   },
+
+  // CEK: draf dari data proyek, cocokkan fitur dan status dengan kenyataan
+  'sachi-sweet': {
+    lead: 'Website company profile untuk Cafe Sachi Sweet, dengan dashboard admin untuk mengelola produk.',
+    headline: 'Website company profile Cafe Sachi Sweet',
+    aboutTitle: 'Tentang proyek ini',
+    paragraphs: [
+      'Sachi Sweet adalah cafe yang ingin tampil rapi dan mudah ditemukan di internet. Kami membuatkan website company profile yang memperkenalkan cafe, menu, dan suasananya kepada pengunjung.',
+      'Tampilan website mengikuti identitas Sachi Sweet, dengan warna dan gaya yang disesuaikan dengan logonya. Selain itu, tersedia dashboard admin agar pengelola bisa mengatur produk tanpa bantuan teknis.',
+    ],
+    featuresTitle: 'Apa yang kami kerjakan',
+    features: [
+      { title: 'Website company profile', text: 'Memperkenalkan cafe, menu, dan informasi usaha dalam satu website.' },
+      { title: 'Tampilan sesuai identitas', text: 'Palet warna dan gaya visual disamakan dengan logo Sachi Sweet.' },
+      { title: 'Dashboard admin', text: 'Pengelola bisa mengatur produk yang tampil di website.' },
+      { title: 'Pengujian sebelum rilis', text: 'Fitur dashboard diuji di lingkungan staging sebelum dipakai.' },
+    ],
+    service: 'Website dan dashboard admin',
+    status: 'Sudah digunakan', // CEK: ganti "Dalam pengembangan" kalau belum
+    custom: {
+      badge: 'Penawaran khusus',
+      title: 'Ingin website company profile untuk usaha Anda?',
+      text: 'Website seperti Sachi Sweet bisa kami sesuaikan dengan identitas usaha Anda. Ceritakan usaha Anda, lalu kami rancang website yang pas.',
+      options: [
+        { title: 'Tampilan sesuai brand', text: 'Warna, logo, dan gaya website disamakan dengan identitas usaha Anda.' },
+        { title: 'Konten sesuai usaha', text: 'Menu, produk, dan informasi disusun mengikuti usaha Anda.' },
+        { title: 'Dashboard untuk pengelola', text: 'Produk dan konten bisa diatur sendiri, tanpa bantuan teknis.' },
+        { title: 'Pendampingan awal', text: 'Kami bantu Anda memakai website setelah selesai.' },
+      ],
+      businessesTitle: 'Cocok untuk berbagai usaha',
+      businesses: ['Kafe', 'Restoran', 'Toko', 'UMKM', 'Usaha lainnya'],
+      cta: 'Konsultasikan kebutuhan Anda',
+    },
+  },
+
+  // CEK: draf dari data proyek, cocokkan fitur dan status dengan kenyataan
+  iwageprek: {
+    lead: 'Landing page untuk IWAGEPREK, usaha ikan geprek di Kertosono, Nganjuk.',
+    headline: 'Landing page IWAGEPREK',
+    aboutTitle: 'Tentang proyek ini',
+    paragraphs: [
+      'IWAGEPREK adalah usaha ikan geprek khas di Kertosono, Nganjuk. Kami membuatkan landing page agar calon pelanggan bisa langsung melihat menu dan menghubungi penjual.',
+      'Halaman ini dibuat ringan dan nyaman dibuka dari HP, karena sebagian besar pelanggan mencari makanan lewat ponsel.',
+    ],
+    featuresTitle: 'Apa yang kami kerjakan',
+    features: [
+      { title: 'Landing page satu halaman', text: 'Semua informasi penting usaha ada di satu halaman yang mudah dibaca.' },
+      { title: 'Daftar menu', text: 'Menu ditampilkan jelas, lengkap dengan gaya visual yang sesuai logo.' },
+      { title: 'Nyaman di HP', text: 'Tampilan dirapikan khusus untuk layar ponsel.' },
+      { title: 'Kontak resmi', text: 'Alamat dan kontak penjual tercantum lengkap untuk memudahkan pemesanan.' },
+    ],
+    service: 'Landing page',
+    status: 'Sudah digunakan', // CEK: ganti "Dalam pengembangan" kalau belum
+    custom: {
+      badge: 'Penawaran khusus',
+      title: 'Ingin landing page untuk usaha Anda?',
+      text: 'Landing page seperti IWAGEPREK bisa kami buat untuk usaha Anda. Ceritakan produk dan target pelanggan Anda, lalu kami rancang halaman yang pas.',
+      options: [
+        { title: 'Satu halaman, langsung ke tujuan', text: 'Pengunjung langsung melihat produk dan cara menghubungi Anda.' },
+        { title: 'Tampilan sesuai brand', text: 'Warna dan gaya disamakan dengan logo usaha Anda.' },
+        { title: 'Ramah layar HP', text: 'Dirancang pertama-tama untuk tampilan ponsel.' },
+        { title: 'Tombol kontak aktif', text: 'Pengunjung bisa langsung menghubungi lewat WhatsApp.' },
+      ],
+      businessesTitle: 'Cocok untuk berbagai usaha',
+      businesses: ['Kuliner', 'Toko', 'Jasa', 'UMKM', 'Usaha lainnya'],
+      cta: 'Konsultasikan kebutuhan Anda',
+    },
+  },
 }
 
 const project = computed(() => projects.find((p) => slugify(p.name) === slug.value))
 const detail = computed(() => (slug.value ? details[slug.value] : undefined))
+// Tujuan tombol kembali: tempat pengguna mengeklik proyek (Beranda, Layanan, atau Portofolio)
+const backHref = computed(() => {
+  const o = origin.value
+  return o ? '#' + o.page + (o.slug ? '/' + o.slug : '') : '#portofolio'
+})
+const backLabel = computed(() => 'Kembali ke ' + (origin.value?.label ?? 'Portofolio'))
 const others = computed(() => projects.filter((p) => slugify(p.name) !== slug.value))
+
+// true kalau warna latar proyek terang (mis. Sachi Sweet), supaya teks hero jadi gelap
+const isLight = computed(() => {
+  const hex = (project.value?.from ?? '#000000').replace('#', '')
+  const full = hex.length === 3 ? hex.split('').map((c) => c + c).join('') : hex
+  const n = parseInt(full, 16)
+  const r = (n >> 16) & 255
+  const g = (n >> 8) & 255
+  const b = n & 255
+  return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255 > 0.6
+})
 
 // Gulir halus ke section penawaran
 const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -168,17 +253,9 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
       <!-- HERO -->
       <section class="pdv-top">
         <div class="w">
-          <a class="pdv-back" href="#portofolio">
-            <span class="pdv-back-ic" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 12H5" />
-                <path d="M11 6l-6 6 6 6" />
-              </svg>
-            </span>
-            <span>Kembali ke Portofolio</span>
-          </a>
+          <a class="pdv-back" :href="backHref">{{ backLabel }}</a>
 
-          <div class="pdv-hero" :style="{ '--g1': project.from, '--g2': project.to }">
+          <div class="pdv-hero" :class="{ 'is-light': isLight }" :style="{ '--g1': project.from, '--g2': project.to }">
             <div class="pdv-hero-text">
               <p class="pdv-crumb">Beranda / Portofolio / {{ project.name }}</p>
               <div class="pdv-tags">
@@ -293,10 +370,7 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
                   <span v-for="b in detail.custom.businesses" :key="b" class="pdv-chip">{{ b }}</span>
                 </div>
               </div>
-              <a class="pdv-offer-btn" href="#kontak">
-                {{ detail.custom.cta }}
-                <span aria-hidden="true">&rarr;</span>
-              </a>
+              <a class="pdv-offer-btn" href="#kontak">{{ detail.custom.cta }}</a>
             </div>
           </div>
         </div>
@@ -314,14 +388,14 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
               :href="'#portofolio/' + slugify(o.name)"
             >
               <span class="pdv-mini-thumb" :style="{ '--g1': o.from, '--g2': o.to }">
-                <img v-if="o.logo" :src="o.logo" :alt="'Logo ' + o.name" />
+                <img loading="lazy" decoding="async" v-if="o.logo" :src="o.logo" :alt="'Logo ' + o.name" />
                 <template v-else>{{ o.initial }}</template>
               </span>
               <span class="pdv-mini-info">
                 <b>{{ o.name }}</b>
                 <small>{{ o.tags.join(' · ') }}</small>
               </span>
-              <span class="pdv-mini-arr" aria-hidden="true">&rarr;</span>
+              <span class="pdv-mini-arr" aria-hidden="true">Lihat</span>
             </a>
           </div>
         </div>
@@ -330,15 +404,7 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
 
     <section v-else class="pdv-top">
       <div class="w">
-        <a class="pdv-back" href="#portofolio">
-          <span class="pdv-back-ic" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M19 12H5" />
-              <path d="M11 6l-6 6 6 6" />
-            </svg>
-          </span>
-          <span>Kembali ke Portofolio</span>
-        </a>
+        <a class="pdv-back" :href="backHref">{{ backLabel }}</a>
         <h2>Proyek tidak ditemukan</h2>
         <p>Proyek yang kamu cari tidak ada atau sudah dipindahkan.</p>
       </div>
@@ -351,46 +417,26 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
 <style scoped>
 /* ---------- Tombol kembali ---------- */
 .pdv-top {
-  padding-top: 130px; /* ruang untuk header yang melayang */
+  padding-top: 48px;
 }
 .pdv-back {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 22px;
-  padding: 6px 20px 6px 6px;
-  border-radius: 999px;
+  height: 40px;
+  margin-bottom: 24px;
+  padding: 0 16px;
+  border-radius: 6px;
   background: #fff;
-  border: 1px solid rgba(29, 63, 214, 0.18);
-  box-shadow: 0 4px 14px rgba(8, 15, 51, 0.06);
-  color: #1d3fd6;
-  font-weight: 700;
-  font-size: 15px;
+  border: 1px solid #64748b;
+  color: #080f33;
+  font-weight: 600;
+  font-size: 14px;
   text-decoration: none;
-  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-}
-.pdv-back-ic {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #eef3ff;
-  transition: background 0.2s, color 0.2s, transform 0.2s;
+  transition: border-color 150ms, background 150ms;
 }
 .pdv-back:hover {
-  border-color: #1d3fd6;
-  box-shadow: 0 10px 24px rgba(29, 63, 214, 0.18);
-  transform: translateY(-1px);
-}
-.pdv-back:hover .pdv-back-ic {
-  background: #1d3fd6;
-  color: #fff;
-  transform: translateX(-3px);
-}
-.pdv-back:focus-visible {
-  outline: 3px solid rgba(29, 63, 214, 0.35);
-  outline-offset: 2px;
+  border-color: #080f33;
+  background: #eef4ff;
 }
 
 /* ---------- Hero ---------- */
@@ -400,12 +446,12 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
   grid-template-columns: 1.25fr 1fr;
   align-items: center;
   gap: 32px;
-  padding: 52px 56px;
-  border-radius: 32px;
+  padding: 48px 64px;
+  border-radius: 12px;
   overflow: hidden;
   color: #fff;
-  background: linear-gradient(135deg, var(--g1), var(--g2));
-  box-shadow: 0 28px 70px rgba(8, 15, 51, 0.22);
+  background: var(--g1);
+  box-shadow: var(--sh-1);
 }
 .pdv-hero::before,
 .pdv-hero::after {
@@ -419,14 +465,14 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
   height: 420px;
   right: -90px;
   top: -140px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.16), transparent 65%);
+  background: none;
 }
 .pdv-hero::after {
   width: 300px;
   height: 300px;
   left: -100px;
   bottom: -160px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent 65%);
+  background: none;
 }
 .pdv-hero-text,
 .pdv-logo-wrap {
@@ -434,13 +480,13 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
   z-index: 1;
 }
 .pdv-crumb {
-  margin: 0 0 14px;
+  margin: 0 0 16px;
   font-size: 13px;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.7);
 }
 .pdv-tags {
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 .pdv-hero .tag {
   background: rgba(255, 255, 255, 0.16);
@@ -448,13 +494,13 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
   border: 1px solid rgba(255, 255, 255, 0.22);
 }
 .pdv-hero h1 {
-  margin: 0 0 14px;
+  margin: 0 0 16px;
   font-size: clamp(30px, 4.2vw, 48px);
   line-height: 1.1;
   color: #fff;
 }
 .pdv-lead {
-  margin: 0 0 28px;
+  margin: 0 0 32px;
   max-width: 480px;
   font-size: 17px;
   line-height: 1.7;
@@ -470,20 +516,20 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
 .pdv-btn-ghost {
   display: inline-flex;
   align-items: center;
-  padding: 13px 24px;
-  border-radius: 999px;
+  padding: 12px 24px;
+  border-radius: 6px;
   font: inherit;
   font-weight: 700;
   font-size: 15px;
   text-decoration: none;
   cursor: pointer;
-  transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+  transition: transform 150ms, background 150ms, box-shadow 150ms;
 }
 .pdv-btn-light {
   background: #fff;
   color: var(--g1); /* ikut warna proyek (FOMO hijau, Myth dan Office Hub biru tua) */
   border: 0;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  box-shadow: var(--sh-1);
 }
 .pdv-btn-light:hover {
   transform: translateY(-2px);
@@ -502,27 +548,30 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
   place-items: center;
 }
 .pdv-logo {
+  --sz: 260px;
   display: grid;
   place-items: center;
-  width: 260px;
-  height: 260px;
+  width: var(--sz);
+  height: var(--sz);
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.22);
-  box-shadow: 0 0 0 18px rgba(255, 255, 255, 0.06), 0 30px 60px rgba(0, 0, 0, 0.25);
+  box-shadow: none;
   font-size: 110px;
-  font-weight: 800;
+  font-weight: 700;
   color: rgba(255, 255, 255, 0.9);
 }
 .pdv-logo img {
-  width: 82%;
+  width: auto;
   height: auto;
+  max-width: calc(var(--sz) * 0.8);
+  max-height: calc(var(--sz) * 0.8);
   object-fit: contain;
 }
 
 /* ---------- Isi ---------- */
 .pdv-main {
-  padding: 56px 0 24px;
+  padding: 64px 0 24px;
 }
 .pdv-grid {
   display: grid;
@@ -531,13 +580,13 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
   align-items: start;
 }
 .pdv-content h2 {
-  margin: 0 0 14px;
+  margin: 0 0 16px;
 }
 .pdv-h2-gap {
   margin-top: 40px !important;
 }
 .pdv-p {
-  margin: 0 0 14px;
+  margin: 0 0 16px;
   line-height: 1.8;
   color: #4a5270;
 }
@@ -552,19 +601,19 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
 }
 .pdv-feat li {
   display: flex;
-  gap: 14px;
+  gap: 16px;
   align-items: flex-start;
   padding: 20px;
-  border-radius: 20px;
+  border-radius: 8px;
   background: #fff;
   border: 1px solid rgba(29, 63, 214, 0.12);
-  box-shadow: 0 2px 10px rgba(8, 15, 51, 0.04);
-  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  box-shadow: var(--sh-1);
+  transition: transform 150ms, border-color 150ms, box-shadow 150ms;
 }
 .pdv-feat li:hover {
   transform: translateY(-3px);
   border-color: rgba(29, 63, 214, 0.35);
-  box-shadow: 0 16px 34px rgba(29, 63, 214, 0.12);
+  box-shadow: var(--sh-2);
 }
 .pdv-num {
   flex: none;
@@ -576,11 +625,11 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
   background: #eef3ff;
   color: #1d3fd6;
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 700;
 }
 .pdv-feat b {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
   font-size: 16px;
 }
 .pdv-feat p {
@@ -593,17 +642,17 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
 /* ---------- Kartu ringkasan ---------- */
 .pdv-side {
   position: sticky;
-  top: 120px;
+  top: 80px;
 }
 .pdv-card {
-  padding: 26px;
-  border-radius: 24px;
+  padding: 24px;
+  border-radius: 8px;
   background: #fff;
   border: 1px solid rgba(29, 63, 214, 0.14);
-  box-shadow: 0 20px 50px rgba(8, 15, 51, 0.1);
+  box-shadow: var(--sh-1);
 }
 .pdv-card h3 {
-  margin: 0 0 14px;
+  margin: 0 0 16px;
   font-size: 18px;
 }
 .pdv-card dl {
@@ -631,10 +680,10 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
   display: inline-block;
   width: 8px;
   height: 8px;
-  margin-right: 7px;
+  margin-right: 8px;
   border-radius: 50%;
   background: #1fb26b;
-  box-shadow: 0 0 0 4px rgba(31, 178, 107, 0.18);
+  box-shadow: none;
 }
 .pdv-wide {
   display: flex;
@@ -645,9 +694,9 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-top: 10px;
+  margin-top: 12px;
   padding: 12px 20px;
-  border-radius: 999px;
+  border-radius: 6px;
   border: 1.5px solid rgba(29, 63, 214, 0.3);
   background: transparent;
   color: #1d3fd6;
@@ -655,14 +704,14 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
   font-weight: 700;
   font-size: 15px;
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
+  transition: background 150ms, border-color 150ms;
 }
 .pdv-outline:hover {
   background: #eef3ff;
   border-color: #1d3fd6;
 }
 .pdv-note {
-  margin: 14px 0 0;
+  margin: 16px 0 0;
   font-size: 13px;
   line-height: 1.6;
   text-align: center;
@@ -672,16 +721,16 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
 /* ---------- Penawaran / kustomisasi ---------- */
 .pdv-offer {
   padding: 48px 0 24px;
-  scroll-margin-top: 110px;
+  scroll-margin-top: 80px;
 }
 .pdv-offer-box {
   position: relative;
   overflow: hidden;
-  padding: 48px 52px;
-  border-radius: 32px;
+  padding: 48px 48px;
+  border-radius: 12px;
   color: #fff;
-  background: linear-gradient(135deg, #080f33, #1d3fd6);
-  box-shadow: 0 28px 70px rgba(29, 63, 214, 0.28);
+  background: #080f33;
+  box-shadow: var(--sh-1);
 }
 .pdv-offer-box::before {
   content: '';
@@ -691,7 +740,7 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
   right: -110px;
   top: -150px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(20, 177, 245, 0.35), transparent 65%);
+  background: none;
   pointer-events: none;
 }
 .pdv-offer-box > * {
@@ -703,13 +752,13 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
 }
 .pdv-badge {
   display: inline-block;
-  margin-bottom: 14px;
-  padding: 5px 14px;
+  margin-bottom: 16px;
+  padding: 6px 16px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.16);
   border: 1px solid rgba(255, 255, 255, 0.24);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
@@ -732,17 +781,17 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
   padding: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  gap: 16px;
 }
 .pdv-opts li {
   display: flex;
-  gap: 14px;
+  gap: 16px;
   align-items: flex-start;
-  padding: 18px 20px;
-  border-radius: 18px;
+  padding: 20px 20px;
+  border-radius: 8px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.16);
-  transition: background 0.2s, transform 0.2s;
+  transition: background 150ms, transform 150ms;
 }
 .pdv-opts li:hover {
   background: rgba(255, 255, 255, 0.14);
@@ -776,12 +825,12 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 24px;
-  padding-top: 28px;
+  padding-top: 32px;
   border-top: 1px dashed rgba(255, 255, 255, 0.28);
 }
 .pdv-biz b {
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.8);
 }
@@ -791,7 +840,7 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
   gap: 8px;
 }
 .pdv-chip {
-  padding: 6px 14px;
+  padding: 6px 16px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -801,33 +850,26 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
 .pdv-offer-btn {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 15px 28px;
-  border-radius: 999px;
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 6px;
   background: #fff;
-  color: #1d3fd6;
-  font-weight: 800;
-  font-size: 15px;
+  color: #1733ad;
+  font-weight: 600;
+  font-size: 14px;
   text-decoration: none;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
-  transition: transform 0.2s;
+  transition: background 150ms;
 }
 .pdv-offer-btn:hover {
-  transform: translateY(-2px);
-}
-.pdv-offer-btn span {
-  transition: transform 0.2s;
-}
-.pdv-offer-btn:hover span {
-  transform: translateX(4px);
+  background: #eef4ff;
 }
 
 /* ---------- Proyek lainnya ---------- */
 .pdv-more {
-  padding: 40px 0 72px;
+  padding: 40px 0 80px;
 }
 .pdv-more h2 {
-  margin: 0 0 18px;
+  margin: 0 0 20px;
 }
 .pdv-more-grid {
   display: grid;
@@ -838,18 +880,18 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 14px 18px 14px 14px;
-  border-radius: 20px;
+  padding: 16px 20px 16px 16px;
+  border-radius: 8px;
   background: #fff;
   border: 1px solid rgba(29, 63, 214, 0.12);
   color: inherit;
   text-decoration: none;
-  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  transition: transform 150ms, border-color 150ms, box-shadow 150ms;
 }
 .pdv-mini:hover {
   transform: translateY(-3px);
   border-color: rgba(29, 63, 214, 0.35);
-  box-shadow: 0 16px 34px rgba(29, 63, 214, 0.12);
+  box-shadow: var(--sh-2);
 }
 .pdv-mini-thumb {
   flex: none;
@@ -857,11 +899,11 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
   place-items: center;
   width: 64px;
   height: 64px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, var(--g1), var(--g2));
+  border-radius: 8px;
+  background: var(--g1);
   color: #fff;
   font-size: 26px;
-  font-weight: 800;
+  font-weight: 700;
   overflow: hidden;
 }
 .pdv-mini-thumb img {
@@ -881,27 +923,23 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
   color: #4a5270;
 }
 .pdv-mini-arr {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
   color: #1d3fd6;
-  transition: transform 0.2s;
-}
-.pdv-mini:hover .pdv-mini-arr {
-  transform: translateX(4px);
 }
 
 /* ---------- Responsif ---------- */
 @media (max-width: 900px) {
   .pdv-hero {
     grid-template-columns: 1fr;
-    padding: 36px 28px;
+    padding: 40px 32px;
   }
   .pdv-logo-wrap {
     order: -1;
   }
   .pdv-logo {
-    width: 190px;
-    height: 190px;
+    --sz: 190px;
+    font-size: 80px;
     font-size: 80px;
   }
   .pdv-grid {
@@ -911,24 +949,24 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
     position: static;
   }
   .pdv-offer-box {
-    padding: 36px 28px;
+    padding: 40px 32px;
   }
 }
 @media (max-width: 560px) {
   .pdv-top {
-    padding-top: 110px;
+    padding-top: 32px;
   }
   .pdv-hero {
-    padding: 28px 20px;
-    border-radius: 24px;
+    padding: 32px 20px;
+    border-radius: 8px;
   }
   .pdv-feat,
   .pdv-opts {
     grid-template-columns: 1fr;
   }
   .pdv-offer-box {
-    padding: 28px 20px;
-    border-radius: 24px;
+    padding: 32px 20px;
+    border-radius: 8px;
   }
   .pdv-offer-btn {
     width: 100%;
@@ -960,5 +998,40 @@ const toCustom = () => document.getElementById('penawaran')?.scrollIntoView({ be
     white-space: nowrap;
     scroll-snap-align: start;
   }
+}
+
+/* ---------- Hero versi terang (latar krem/putih) ---------- */
+.pdv-hero.is-light {
+  color: #080f33;
+  border: 1px solid rgba(8, 15, 51, 0.08);
+}
+.pdv-hero.is-light .pdv-crumb { color: #475569; }
+.pdv-hero.is-light h1 { color: #080f33; }
+.pdv-hero.is-light .pdv-lead { color: #3b4560; }
+.pdv-hero.is-light .tag {
+  background: rgba(8, 15, 51, 0.06);
+  color: #080f33;
+  border-color: rgba(8, 15, 51, 0.16);
+}
+.pdv-hero.is-light .pdv-btn-light {
+  background: #080f33;
+  color: #fff;
+}
+.pdv-hero.is-light .pdv-btn-ghost {
+  color: #080f33;
+  border-color: rgba(8, 15, 51, 0.35);
+}
+.pdv-hero.is-light .pdv-btn-ghost:hover { background: rgba(8, 15, 51, 0.06); }
+.pdv-hero.is-light .pdv-logo {
+  background: #fff;
+  border-color: rgba(8, 15, 51, 0.12);
+  color: #080f33;
+}
+.pdv-hero.is-light .pdv-logo img { border-radius: 8px; }
+
+@media (max-width: 400px) {
+  .pdv-hero { padding: 28px 16px; }
+  .pdv-logo { --sz: 150px; font-size: 60px; }
+  .pdv-actions > * { width: 100%; justify-content: center; }
 }
 </style>

@@ -24,9 +24,9 @@ function onClick(e: MouseEvent) {
   <dialog id="dg" ref="dlg" aria-labelledby="dgt" @click="onClick" @close="onClosed">
     <template v-if="selected">
       <div id="dgp" class="pt" :style="{ '--g1': selected.from, '--g2': selected.to }">
-        <img v-if="selected.logo" :src="selected.logo" :alt="'Logo ' + selected.name" />
+        <img loading="lazy" decoding="async" v-if="selected.logo" :src="selected.logo" :alt="'Logo ' + selected.name" />
         <span v-else>{{ selected.initial }}</span>
-        <button class="x" type="button" aria-label="Tutup">&times;</button>
+        <button class="x" type="button">Tutup</button>
       </div>
       <div class="pb">
         <h3 id="dgt">{{ selected.name }}</h3>
