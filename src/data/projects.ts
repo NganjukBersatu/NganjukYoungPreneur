@@ -1,5 +1,7 @@
 import type { Project } from '../types'
+import mythLogo from '../assets/myth-logo.png'
 import fomoLogo from '../assets/fomo-logo.png'
+import officeHubLogo from '../assets/officehub-logo.png'
 import sachiLogo from '../assets/sachi-logo.png'
 import iwageprekLogo from '../assets/iwageprek-logo.png'
 
@@ -11,6 +13,7 @@ export const projects: Project[] = [
     desc: 'Website dengan rancangan antarmuka yang dibuat khusus, agar tampil unik dan nyaman dipakai pengunjung.',
     from: '#080f33',
     to: '#1d3fd6',
+    logo: mythLogo,
   },
   {
     name: 'Fomo',
@@ -28,6 +31,7 @@ export const projects: Project[] = [
     desc: 'Sistem informasi berbasis web untuk membantu pengelolaan data dan kegiatan kantor sehari-hari.',
     from: '#080f33',
     to: '#14b1f5',
+    logo: officeHubLogo,
   },
   {
     name: 'Sachi Sweet',
